@@ -1,0 +1,305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta http-equiv="content-type" content="text-html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="style2.css">
+
+<title> View Song:  Meromemi u'Mekadshi מרוממי ומקדשי</title>
+
+<meta property="og:title" content="Meromemi u'Mekadshi מרוממי ומקדשי" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" >
+<meta property="og:type" content="article" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:url" content="http://zemirotdatabase.org/view_song.php?id=209" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:image" content="http://zemirotdatabase.org/logosquare.jpg" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:site_name" content="Zemirot Database" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="fb:admins" content="1665840143,1341720084" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="swfobject/swfobject.js"></script>
+<script language="javascript" type="text/javascript">
+
+
+	function hide(x) {
+			document.getElementById(x).style.display='none';}
+	
+	function show(x) {
+			document.getElementById(x).style.display='';}
+
+	function hiderecordings() {
+		document.getElementById('recordings').innerHTML='';
+		show('showrectitle');
+	}
+	
+	function Inint_AJAX() {
+	//ajax call
+		try { return new ActiveXObject("Msxml2.XMLHTTP");  } catch(e) {} //IE
+		try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch(e) {} //IE
+		try { return new XMLHttpRequest();          } catch(e) {} //Native Javascript
+		alert("XMLHttpRequest not supported");
+		return null;
+	}
+	
+	function setCookie(c_name,value,exdays)
+	{
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	}
+	
+	function getCookie(c_name)
+	{
+	  var i,x,y,ARRcookies=document.cookie.split(";");
+	  for (i=0;i<ARRcookies.length;i++)
+	  {
+		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x=x.replace(/^\s+|\s+$/g,"");
+		
+		if (x==c_name)
+		{
+		  return unescape(y);
+		}
+	  }
+	}
+	
+	var flash_support;
+	var zdflash = getCookie("zdflash");
+	
+	if (zdflash != null) {
+	  if (zdflash == 2)
+		  flash_support = 2;
+	  else 
+		  flash_support = 1;
+	}
+	
+	else {
+		if(swfobject.hasFlashPlayerVersion("1")) {
+			setCookie("zdflash",1,500);
+			flash_support = 1;
+			}
+		else {
+			setCookie("zdflash",2,500);
+			flash_support = 2;
+		}
+	}
+		
+	function increaselike(recording_id) {
+		var req = Inint_AJAX();
+
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('ratingnumber_'+recording_id).innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "increase_like.php?recording_id="+recording_id;
+		
+		req.open("GET", url); //make connection
+
+	
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	function toggle_flash (song_id, recording_csv, flash_support_local) {
+	
+		setCookie("zdflash",flash_support_local,500);
+		flash_support = flash_support_local;
+		displayrecordings(song_id, recording_csv);
+			
+	}
+	
+	function displayrecordings(song_id, recording_csv) {
+		
+		
+		document.getElementById('recordings').innerHTML="<img src='ajax-loader.gif'>";
+		var req = Inint_AJAX();
+		hide('showrectitle');
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('recordings').innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "display_recordings.php?song_id="+song_id+"&recording_csv="+recording_csv+"&flash_support="+flash_support;
+		
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	var played = new Array(); 
+
+	function hitcounter(recording_id) {
+	
+	 if(played.indexOf(recording_id) == -1 ){
+		played.push(recording_id);
+				
+		var req = Inint_AJAX();
+		
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+		  }
+		}
+		}
+		
+		url = "recording_counter.php?recording_id="+recording_id+"&song_id=209";
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	 }
+	}
+	
+	
+</script>
+
+</head>
+<body>
+
+<div id="wrapper"
+style = 'min-width:255px' >
+ 
+  <div id="header"><img src="logo.gif" width="255" height="78" /></div>
+  <div id="navbar">
+    <ul>
+    
+      <li><a href="index.php">Home</a></li>
+      <li><a href="song_index.php">Song Index</a></li>
+       <li><a href="search.php">Search</a></li>
+      <li><a href="add_song.php">Add a Song</a></li>
+      <li><a href="members.php">Members</a></li>
+     
+      <li><a href="log_in.php?next=view_song.php&id=209">Log In</a></li>
+      <li><a href="add_user.php">Create Account</a></li>
+      
+          <li><a href="socialmedia.php">Social Media</a></li>
+     
+    </ul>
+    
+  </div>
+
+
+
+	
+
+		<table style='width:100%'><tr>
+	<td style='white-space:nowrap; padding-left:5px;'>
+		<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fzemirotdatabase.org%2Fview_song.php%3Fid%3D209&amp;send=false&amp;layout=button_count&amp;width=10&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+		<g:plusone size="medium"></g:plusone>
+	</td>
+	<td	style='width:80%'>
+	</td>
+	<td style='padding-right:5px;'>
+		<script type="text/javascript">
+function showResult(str)
+{
+if (str.length < 3)
+  { 
+  document.getElementById("livesearch").innerHTML="";
+  document.getElementById("livesearch").style.border="0px";
+  document.getElementById("livesearch").style.display="none";
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
+    if(xmlhttp.responseText != ""){
+    	document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+    	document.getElementById("livesearch").style.display="";
+    }
+    }
+  }
+xmlhttp.open("GET","livesearch.php?title="+str,true);
+xmlhttp.send();
+}
+</script>
+
+
+
+
+<form action="simple_search.php" method="get" style="display:inline; margin:0; padding:0;">
+	<input type="search" autocomplete="off" name="str" id="strt" value="" placeholder="Search titles" onFocus="this.value=''" onkeyup="showResult(this.value)" style="display:inline; width:88px; padding:0px; text-align:center;"/>
+</form>
+
+	<br><div align='right' id="livesearch" style="width:120px;display:none;position:absolute;text-align:left;right:6.8%;"></div>	
+	</td>
+	</table>
+	
+		<script language="javascript" type="text/javascript">
+ 		var strt = document.getElementById('strt');
+ 		if (!('placeholder' in strt)) {
+ 			strt.value = "Search!"; 
+ 		}
+ 	</script>
+	
+	
+<div id="content">
+
+	
+
+
+
+<center><div>
+<table><tr><td style='text-align:center'>
+<h1 style='display:inline'>Meromemi u'Mekadshi</h1>&nbsp;&nbsp;<h5>מרוממי ומקדשי</h5></td></tr>
+<tr><td style='text-align:center'><h4>
+<a href='edit_song.php?id=209'>Edit Song</a> &#8226; <a href='discussion.php?id=209'>Discussion</a> &#8226; 
+<a href='song_history.php?id=209'>History</a> &#8226; <a href='print.php?song_id=209' target='_blank'>Print</a></h4>
+
+</td></tr></table></div></center>
+<div style='margin-left:auto; margin-right:auto; text-align:left; width:90%; max-width:650px;' >
+<table width='100%' class='centered'><tr><td valign='top'><div id='transliteration' style=' font-size:15px; word-wrap:break-word;'></div></td><td style='width:50%; padding-left:8px;' valign='top'><div id='hebrew' style='width:100%; direction:rtl; text-align:right;' class='font'>מְרוֹמְמִי וּמְקַדְּשִׁי הִנְחִילִי שֵׁשֶׁת חַגַּי<br>אוֹהֲבִי בַּשְּׁבִיעִי הִזְבִּידִי תַּעֲנוּגַי<br><br>מוֹצִיאִי קָרָא דְּרוֹר עַל קוֹרְאֵי מַעֲמַקִּים<br>אִמְּצַנִי עַל כְּנָפָיו נְשָׂאַנִי בַּשְּׁחָקִים<br>יִשְׁאֲלוּ אַרְבָּעָה מָה הָעֵדֹת וְהַחֻקִּים<br>רַנְּנוּ לְצוּר יִשְׁעֵיכֶם הַחוֹצֶה מֵי אֲפִיקִים<br><br>מְרוֹמְמִי וּמְקַדְּשִׁי הִנְחִילִי שֵׁשֶׁת חַגַּי<br>אוֹהֲבִי בַּשְּׁבִיעִי הִזְבִּידִי תַּעֲנוּגַי<br><br>וְזֹאת הַתּוֹרָה מִמִּדְבָּר מַתָּנָה<br>גַּבְנֻנִּים תְּרַצְדוּן בְּהַנְחִילוֹ אֲמָנָה<br>וְעָנִינוּ כֻּלָּנוּ עֵדוּתוֹ נֶאֱמָנָה<br>לֶקַח טוֹב נִתַּן לָנוּ מִשִּׂפְתֵי שׁוֹשַׁנָּה<br><br>מְרוֹמְמִי וּמְקַדְּשִׁי הִנְחִילִי שֵׁשֶׁת חַגַּי<br>אוֹהֲבִי בַּשְּׁבִיעִי הִזְבִּידִי תַּעֲנוּגַי<br><br>דּוֹר וָדוֹר זִכְרוֹ וְאַשְׁרֵי כָּל זוֹכְרָיו<br>הָמוּ מֵעָיו בְּזָכְרוֹ לֶכְתֵּנוּ אַחֲרָיו<br>פְּנֵי מֶלֶךְ לְחַלּוֹת בִּתְקוֹעַ שְׁבָרָיו<br>רָם יֵשֵׁב בְּכִסְּאוֹ בִּפְתֹחַ סְפָרָיו<br><br>מְרוֹמְמִי וּמְקַדְּשִׁי הִנְחִילִי שֵׁשֶׁת חַגַּי<br>אוֹהֲבִי בַּשְּׁבִיעִי הִזְבִּידִי תַּעֲנוּגַי<br><br>נֹעַם דְּרָכָיו גֹּדֶל רַחֲמִים<br>קְרוֹבָה מְחִילָתֵנוּ מִנּוֹטֵר כְּרָמִים<br>לֹבֶן בְּגָדִים לְבַקֵּשׁ בַּנְּעִימִים<br>כִּפּוּר עֲווֹנוֹתֵינוּ מִצּוּר עוֹלָמִים<br><br>מְרוֹמְמִי וּמְקַדְּשִׁי הִנְחִילִי שֵׁשֶׁת חַגַּי<br>אוֹהֲבִי בַּשְּׁבִיעִי הִזְבִּידִי תַּעֲנוּגַי<br><br>זִמְרָה וְקוֹל תּוֹדָה בְּאִגּוּד אַרְבָּעָה<br>בִּזְמַן שִׂמְחָתֵנוּ תִּמָּחֶה כָּל דִּמְעָה<br>אֶדֶר סֻכָּתֵנוּ בְּטֹהַר יְרִיעָה<br>בְּזָהָב וָכֶסֶף לְקַשְּׁטָהּ כָּל שִׁבְעָה<br><br>מְרוֹמְמִי וּמְקַדְּשִׁי הִנְחִילִי שֵׁשֶׁת חַגַּי<br>אוֹהֲבִי בַּשְּׁבִיעִי הִזְבִּידִי תַּעֲנוּגַי<br><br>תַּמּוּ יְמֵי הֶחָג וְעוֹד יוֹם נֶעֱצָרִים<br>שֻׁלְחָנוֹ יַעֲרֹךְ לִשְׁתִילָיו הַיְקָרִים<br>יַעַן כִּי קָשָׁה פְּרֵדַת טְהוֹרִים<br>בְּטוּב דּוֹדָיו יְאָרְחֵם בְּאֹהַב דְּבָרִים<br><br>מְרוֹמְמִי וּמְקַדְּשִׁי הִנְחִילִי שֵׁשֶׁת חַגַּי<br>אוֹהֲבִי בַּשְּׁבִיעִי הִזְבִּידִי תַּעֲנוּגַי</div></td></tr><tr><td colspan='2'><br><h4 class='view'>Translation:</h4><div id='translation' style='width:100%; font-size:15px; word-wrap:break-word;'>He who elevates me and sanctifie&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;s me, bequeathe&#8203;&#8203;d me my six Festivals&#8203;.<br>On the seventh day (Shabbat)&#8203;, He who loves me gifted me a day of supernal delight.<br><br>My Deliverer&#8203; proclaime&#8203;d freedom [unto] those who called out from the depths; <br>He supported&#8203; me upon His wings, and carried me aloft unto the skies. <br>The four [sons] ask, "What are these testimoni&#8203;es and statutes?&#8203;" [And You reply,]<br>"Shou&#8203;t out in joyous song to the Rock of your salvation&#8203; who split the mighty waters!"<br><br>He who elevates me and sanctifie&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;s me …<br><br>"The Torah He gifted [to us] from amid the barrennes&#8203;s.<br>The mountains&#8203; did dance when He bequeathe&#8203;&#8203;d it as the blueprint&#8203; [for our lives]."<br>We answered together,&#8203; “His Testimony&#8203; (the Torah) is true! <br>Goodl&#8203;y teachings&#8203; were spoken to us from His rose-like&#8203; lips."<br><br>He who elevates me and sanctifie&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;s me …<br><br>His impressio&#8203;n lasts for all generatio&#8203;ns, and praisewor&#8203;thy are those who remember Him.<br>His feelings are stirred from within as He recalls how we [lovingly&#8203;] followed after His ways. <br>The King is beseeched&#8203; when the shevarim are blown [on the shofar].<br>He sits enthroned&#8203; with His books open before Him.<br><br>He who elevates me and sanctifie&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;s me …<br><br>His ways are of pleasantn&#8203;ess, for He is greatly merciful.&#8203; <br>Forgi&#8203;veness is readily granted to us by the Tender of vineyards&#8203;. <br>The whitely-g&#8203;arbed one comes to beseech [in Your Sanctuary&#8203;] with sweetness&#8203;.<br>Our misdeeds are pardoned by the Fashioner&#8203; of the universe.&#8203;<br><br>He who elevates me and sanctifie&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;s me …<br><br>Songs&#8203; of praise and thanksgiv&#8203;ing are sung as the four are bound together as one.<br>This is "The Time of Our Rejoicing&#8203;" when every last tear is wiped away. <br>Ensco&#8203;nced is our magnifice&#8203;nt sukkah by a curtain of [white] purity;<br>Adorn&#8203;ed with gold and silver for all seven [days].<br><br>He who elevates me and sanctifie&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;s me …<br><br>The days of the Festive rejoicing&#8203; conclude,&#8203; yet we remain [together&#8203;] another day.<br>His table He sets for His precious children,&#8203; <br>for pained is He by the departure&#8203; of His pure ones. <br>He hosts with tender kindnesse&#8203;s and loving words.<br><br>He who elevates me and sanctifie&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;s me …<br><br>(User&#8203;-contribu&#8203;ted translati&#8203;on)<br></div></td></tr><tr><td colspan='2'><br><h4 class='view'>Information:</h4><div id='information' style='width:100%; font-size:15px; word-wrap:break-word;'>CHORUS:<br><br>Line 1 refers to the six festivals (ששת חגי) which are explicated across the six stanzas of the piyyut. הקב"ה is referred to here as מרוממי ומקדשי, based upon the nusach of the festival kiddush: ורוממנו מכל לשון וקדשנו במצוותיו.<br><br>Line 2 refers to the Shabbat. הקב"ה is called אוהבי here (‘He who loves me’), recalling the addition of the extra term 'באהבה' in the festival Kiddush when the festival coincides with a Shabbat.  הזבידי means 'he gave to me as a present' (The word זֶבֶד [= gift] appears in Gen. 30:20, and the paytanim extended the word with the causative verb להזביד).  תענוגי recalls the עונג component of Shabbos (cf. Is. 58:13-14: וקראת לשבת עֹנג... אז תתענג על ה').<br><br>[Grammatical note: In Biblical Hebrew, the words הנחילי ('he endowed me') and הזבידי ('he gave to me as a gift') would be conjugated with a 'נ' as part of the suffix: הנחילני and הזבידני. However, according to the paytanic tradition (represented first and foremost by the piyyutim of Elazar b'rabi Kallir), the 'נ' is an optional component, and may be omitted.]<br><br>STANZA 1: PESACH<br><br>Line 1 / מוציאי: Hashem, who took us out of Egypt (cf. Ex. 6:7: כי אני ה' אלקיכם המוציא אתכם מתחת סבלות מצרים).  קרא דרור: granted freedom (the phrase appears in a number of places in Tanach, such as regarding the Yovel in Lev. 25:10).   קוראי מעמקים: Those who cry out to Hashem from the depths. The phrase is based on Ps. 130:1 (ממעמקים קראתיך ה') and the reference is to Am Yisrael crying to Hashem in Egypt (cf. Ex. 2:23: ויזעקו ותעל שועתם אל האלקים מן העבֹדה). <br><br>Line 2 / as a whole refers to Ex. 19:4 (ואשא אתכם על כנפי נשרים).  אמצני: He strengthened me and supported me.  נשאני בשחקים: He carried me through the skies. (For the use of the word שחקים as 'skies' see for instance Deut. 33:26).<br><br>Line 3 / ארבעה: The four sons, as per the haggada.  מה העדֹת והחֻקים: as per Deut. 6:20: כי ישאלך בנך מחר לאמר מה העדֹת והחֻקים.<br><br>Line 4 / רננו לצור ישעיכם: Praise God, your Savior. The phraseology is based on Ps. 95:1: לכו נרננה לה' נריעה לצור ישענו.   החוצה מי אפיקים: Who divides the mighty waters (the term 'אפיקים' generally refers to lakes and rivers [see for instance Is. 8:7]; however, it can also be used in the sense of 'mighty' and 'strong' [see Job 12:21].)<br><br>STANZA 2: SHAVUOT<br><br>Line 1 / וזאת התורה: cf. Deut. 4:44: וזאת התורה אשר שם משה לפני בני ישראל.   ממדבר מתנה: The phrase is from Num. 21:18, which is explained in the Midrash (אותיות דרבי עקיבא, ד"ה דבר אחר סמ"ך) as referring to the giving of the Torah on Sinai: וממדבר מתנה זה מדבר סיני שנתנה להם לוחות במתנה מסיני.  <br><br>Line 2 / למה תרצדון: cf. Ps. 68:17: למה תרצדון הרים גבנֻנים, which is explained by the midrash to refer to the clamoring of the mountains who each wished to be the one on which the Torah would be given. See Genesis Rabba section 100: למה תרצדון הרבים גבנונים... בשעה שבא הקב"ה ליתן תורה בסיני היו ההרים רצים ומדיינים אלו עם אלו, זה אומר עלי התורה ניתנה, וזה אומר עלי תורה ניתנה.   בהנחילו אמנה: As Hashem bestowed us with the Torah.  אמנה is a term used by the paytanim to refer to the Torah, based upon Mishlei 8:30: ואהיה אצלו אמון, and the Midrash in Genesis Rabba section 1 which interprets that verse as referring to the Torah.<br><br>Line 3 / וענינו כולנו: we all answered (at Har Sinai).  עדותו נאמנה: The Torah is true (cf. Ps. 19:18: תורת ה' תמימה... עדות ה' נאמנה).  <br><br>Line 4 / לקח טוב: cf. Mishlei 4:2: כי לקח טוב נתתי לכם תורתי אל תעזֹבו.   משפתי שושנה: Hashem, based on the description of the דוד in Shir Hashirim 5:13: שפתותיו שושנים. <br><br>STANZA 3: ROSH HASHANA<br><br>Line 1 / דור ודור זכרו: Hashem (cf. Ex. 3:15: זה זכרי לדֹר דֹר).   ואשרי כל זוכריו: And fortunate are those who remember You. The idea is based upon the Rosh Hashana liturgy: אשרי איש שלא ישכחך.   <br><br>Line 2 / המו מעיו בזכרו לכתנו אחריו: His insides turn as he remembers how we followed Him in the desert.  This is based upon two verses from Jeremiah, both included within the זכרונות verses in the litrugy. Jer. 31:19:  הבן יקיר לי אפרים... זכֹר אזכרנו עוד על כן המו מעי לו; and Jer. 2:2: זכרתי לך חסד נעוריך... לכתך אחרי במדבר.<br><br>Line 3 / פני מלך לחלות בתקוע שבריו: Supplicating before the King, as we blow His 'שברים' (that is, as we blow on the shofar as He commanded us).<br><br>Line 4 / רם ישב בכסאו: He sits majestically on His chair (cf. Is. 6:1, which his highlighted in the Rosh Hashana liturgy: יושב על כסא רם ונשא).  בפתֹח ספריו: as the books of זכרונות are opened before Him. <br><br>STANZA 4: YOM KIPPUR<br><br>Line 1 / נעם דרכיו: God's pleasant ways (cf. Mishlei 3:17: דרכיה דרכי נעם).  גֹדל רחמים: God's great and bountiful mercy.<br><br>Line 2 / קרובה מחילתנו: our forgiveness will soon be granted.  מנוטר כרמים: Hashem, whose relationship to Israel is likened to that of a keeper to his vineyard, in the piyyut which we sing on Yom Kippur: כי אנו עמך ואתה אלקינו... אנו כרמיך ואתה נוטרנו.<br><br>Line 3 refers to the Kohen Gadol, who wears בגדי לבן on Yom Kippur, as he goes into the קדש הקדשים to plead for his nation.  (בנעימים references the היכל and the קדש הקדשים based upon Ps. 27:4: לחזות בנֹעם ה' ולבקר בהיכלו).<br><br>Line 4 / צור עולמים is Hashem (cf. Is. 26:4: כי בי ה ה' צור עולמים).<br><br>STANZA 5: SUKKOT <br><br>Line 1 / זמרה וקול תודה: for the phraseology, cf. Is. 51:3: תודה וקול זמרה. The reference here is to the special joy of Sukkot, about which it is written: ושמחת בחגך (Deut. 16:14).  באגוד ארבעה: as we join together the 4 minim. The term אגוד references the halacha that the 4 minim must be wrapped together (see Talmud Bavli Sukkah 11b: לולב צריך אגד)<br><br>Line 2 / בזמן שמחתנו: Sukkot, as it is referenced in the liturgy. תִמחה כל דמעה: an expression of eternal Joy based upon Is. 25:8: ומחה ה' א לקים דמעה מעל כל פנים. <br><br>Line 3 / אדר סוכתנו בטֹהר יריעה: The magnificence of our Sukkot, with their clean and beautiful curtains/walls (regarding the importance of beautifying the Sukkah, see Talmud Bavli, Shabbat 133b: התנאה לפניו במצות, עשה לפניו סוכה נאה). <br><br>Line 4 refers to the decoration of the Sukkah.<br><br>STANZA 6: SHMINI ATZERET<br><br>Line 1 / תמו ימי החג: the days of Sukkot are over. ועוד יום נעצרים: yet the people of Israel stay one more day. The term נעצרים is an epithet for those who stay for the עצרת.<br><br>Line 2 is based on the description of the essence of Shmini Atzeret as described in Talmud Bavli Sukkot 55b, in which this chag is likened to a King who sets up a special meal at the end of his celebration just for his loved ones: משל למלך בשר ודם שאמר לעבדיו עשו לי סעודה גדולה, ליום אחרון אמר לאוהבו עשו לי סעודה קטנה כדי שאהנה ממך.  The phrase שלחנו יערֹך recalls Ps. 23:5 (תערֹך לפני שלחן), and the word שלחן together with the term שתיליו recalls the image of the children sitting around the father's table, as described in Ps. 128:3: בניך כשתִלי זיתים סביב לשלחנך. <br><br>Line 3 references the language used by Rashi (on Lev. 23:36) to paraphrase the aforementioned Gemara: כמלך שזימן את בניו לסעודה לכך וכך ימים, כיון שהגיע זמנן להפטר אמר בני בבקשה מכם עכבו עמי עוד יום אחד, קשה עלי פרידתכם.  <br><br>Line 4 / בטוב דודיו יארחם: He shall host them with his kind love.  באֹהב דברים: with loving words.<br></div></td></tr><tr><td colspan='2'><br><div id='showrectitle'><h4 class='view'>
+		<a href='#rec' name='rec' onclick="displayrecordings('209','618,639,641,643,644,707,')"  id='loadrecordings' style='border:none; display:none'>Load recordings (there are 6 recordings)</a><noscript><a href='view_song.php?id=209&recordings=1#rec' name='rec'> Click to reload with recordings</a></noscript></h4></div>
+		  <div id='recordings' style='width:100%; font-size:15px'> 
+		  <script language='javascript' type='text/javascript'>	
+			show('loadrecordings');
+		</script>
+		  </div><tr><td  colspan='2'><br><h4 class='view'>Categories:</h4>
+<div id='categories' style='width:100%; font-size:15px'><a href='view_category.php?id=1'>Erev Shabbat</a><br><a href='view_category.php?id=2'>Yom Shabbat</a><br><a href='view_category.php?id=3'>Seudah Shelishit</a><br><a href='view_category.php?id=5'>Pesach</a><br><a href='view_category.php?id=6'>Sukkot</a><br><a href='view_category.php?id=8'>Shavuot</a><br><a href='view_category.php?id=4'>High Holiday</a><br><a href='view_category.php?id=19'>Simchat Torah</a><br><br></div></td></tr></table>
+
+<center><a href='copyright_report.php?id=209' style='font-size:12px'>Report copyright infringement/submit DMCA request</a></center>
+
+</div>
+</div>
+<div id="footer">
+    <div align="center"> 
+      <ul>
+      	<li><a href="faq.php">FAQ</a>&nbsp;</li>
+        <li><a href="contact2.php">Contact Us</a>&nbsp;</li>
+        <li><a href="copyright.php">Copyright Policy</a></li>
+        <li><a href="copyright_report.php#dmca">DMCA Policy and Agent Info</a></li>
+         <li><a href="links.php">Links and Partners</a></li>
+         <li><a href="http://acum.org.il"><img src="acum.png" height="20" style="vertical-align:bottom"/> השירות פועל ברישיון אקו"ם</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+</html>

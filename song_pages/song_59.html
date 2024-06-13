@@ -1,0 +1,305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta http-equiv="content-type" content="text-html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="style2.css">
+
+<title> View Song:  Anim Zemirot אַנְעִים זְמִירוֹת</title>
+
+<meta property="og:title" content="Anim Zemirot אַנְעִים זְמִירוֹת" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" >
+<meta property="og:type" content="article" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:url" content="http://zemirotdatabase.org/view_song.php?id=59" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:image" content="http://zemirotdatabase.org/logosquare.jpg" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:site_name" content="Zemirot Database" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="fb:admins" content="1665840143,1341720084" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="swfobject/swfobject.js"></script>
+<script language="javascript" type="text/javascript">
+
+
+	function hide(x) {
+			document.getElementById(x).style.display='none';}
+	
+	function show(x) {
+			document.getElementById(x).style.display='';}
+
+	function hiderecordings() {
+		document.getElementById('recordings').innerHTML='';
+		show('showrectitle');
+	}
+	
+	function Inint_AJAX() {
+	//ajax call
+		try { return new ActiveXObject("Msxml2.XMLHTTP");  } catch(e) {} //IE
+		try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch(e) {} //IE
+		try { return new XMLHttpRequest();          } catch(e) {} //Native Javascript
+		alert("XMLHttpRequest not supported");
+		return null;
+	}
+	
+	function setCookie(c_name,value,exdays)
+	{
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	}
+	
+	function getCookie(c_name)
+	{
+	  var i,x,y,ARRcookies=document.cookie.split(";");
+	  for (i=0;i<ARRcookies.length;i++)
+	  {
+		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x=x.replace(/^\s+|\s+$/g,"");
+		
+		if (x==c_name)
+		{
+		  return unescape(y);
+		}
+	  }
+	}
+	
+	var flash_support;
+	var zdflash = getCookie("zdflash");
+	
+	if (zdflash != null) {
+	  if (zdflash == 2)
+		  flash_support = 2;
+	  else 
+		  flash_support = 1;
+	}
+	
+	else {
+		if(swfobject.hasFlashPlayerVersion("1")) {
+			setCookie("zdflash",1,500);
+			flash_support = 1;
+			}
+		else {
+			setCookie("zdflash",2,500);
+			flash_support = 2;
+		}
+	}
+		
+	function increaselike(recording_id) {
+		var req = Inint_AJAX();
+
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('ratingnumber_'+recording_id).innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "increase_like.php?recording_id="+recording_id;
+		
+		req.open("GET", url); //make connection
+
+	
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	function toggle_flash (song_id, recording_csv, flash_support_local) {
+	
+		setCookie("zdflash",flash_support_local,500);
+		flash_support = flash_support_local;
+		displayrecordings(song_id, recording_csv);
+			
+	}
+	
+	function displayrecordings(song_id, recording_csv) {
+		
+		
+		document.getElementById('recordings').innerHTML="<img src='ajax-loader.gif'>";
+		var req = Inint_AJAX();
+		hide('showrectitle');
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('recordings').innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "display_recordings.php?song_id="+song_id+"&recording_csv="+recording_csv+"&flash_support="+flash_support;
+		
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	var played = new Array(); 
+
+	function hitcounter(recording_id) {
+	
+	 if(played.indexOf(recording_id) == -1 ){
+		played.push(recording_id);
+				
+		var req = Inint_AJAX();
+		
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+		  }
+		}
+		}
+		
+		url = "recording_counter.php?recording_id="+recording_id+"&song_id=59";
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	 }
+	}
+	
+	
+</script>
+
+</head>
+<body>
+
+<div id="wrapper"
+style = 'min-width:255px' >
+ 
+  <div id="header"><img src="logo.gif" width="255" height="78" /></div>
+  <div id="navbar">
+    <ul>
+    
+      <li><a href="index.php">Home</a></li>
+      <li><a href="song_index.php">Song Index</a></li>
+       <li><a href="search.php">Search</a></li>
+      <li><a href="add_song.php">Add a Song</a></li>
+      <li><a href="members.php">Members</a></li>
+     
+      <li><a href="log_in.php?next=view_song.php&id=59">Log In</a></li>
+      <li><a href="add_user.php">Create Account</a></li>
+      
+          <li><a href="socialmedia.php">Social Media</a></li>
+     
+    </ul>
+    
+  </div>
+
+
+
+	
+
+		<table style='width:100%'><tr>
+	<td style='white-space:nowrap; padding-left:5px;'>
+		<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fzemirotdatabase.org%2Fview_song.php%3Fid%3D59&amp;send=false&amp;layout=button_count&amp;width=10&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+		<g:plusone size="medium"></g:plusone>
+	</td>
+	<td	style='width:80%'>
+	</td>
+	<td style='padding-right:5px;'>
+		<script type="text/javascript">
+function showResult(str)
+{
+if (str.length < 3)
+  { 
+  document.getElementById("livesearch").innerHTML="";
+  document.getElementById("livesearch").style.border="0px";
+  document.getElementById("livesearch").style.display="none";
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
+    if(xmlhttp.responseText != ""){
+    	document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+    	document.getElementById("livesearch").style.display="";
+    }
+    }
+  }
+xmlhttp.open("GET","livesearch.php?title="+str,true);
+xmlhttp.send();
+}
+</script>
+
+
+
+
+<form action="simple_search.php" method="get" style="display:inline; margin:0; padding:0;">
+	<input type="search" autocomplete="off" name="str" id="strt" value="" placeholder="Search titles" onFocus="this.value=''" onkeyup="showResult(this.value)" style="display:inline; width:88px; padding:0px; text-align:center;"/>
+</form>
+
+	<br><div align='right' id="livesearch" style="width:120px;display:none;position:absolute;text-align:left;right:6.8%;"></div>	
+	</td>
+	</table>
+	
+		<script language="javascript" type="text/javascript">
+ 		var strt = document.getElementById('strt');
+ 		if (!('placeholder' in strt)) {
+ 			strt.value = "Search!"; 
+ 		}
+ 	</script>
+	
+	
+<div id="content">
+
+	
+
+
+
+<center><div>
+<table><tr><td style='text-align:center'>
+<h1 style='display:inline'>Anim Zemirot</h1>&nbsp;&nbsp;<h5>אַנְעִים זְמִירוֹת</h5></td></tr>
+<tr><td style='text-align:center'><h4>
+<a href='edit_song.php?id=59'>Edit Song</a> &#8226; <a href='discussion.php?id=59'>Discussion</a> &#8226; 
+<a href='song_history.php?id=59'>History</a> &#8226; <a href='print.php?song_id=59' target='_blank'>Print</a></h4>
+
+</td></tr></table></div></center>
+<div style='margin-left:auto; margin-right:auto; text-align:left; width:90%; max-width:650px;' >
+<table width='100%' class='centered'><tr><td valign='top'><div id='transliteration' style=' font-size:15px; word-wrap:break-word;'>1A Anim zemirot v’shirim e'erog ki eilecha nafshi ta'arog.<br><br>1B Nafshi chamda b‘tzel yadecha lada'at kol raz sodecha.<br><br>2A Midei daberi bi’chvodecha homeh libi el dodecha.<br><br>2B Al ken adaber b‘cha nichbadot v‘shimcha achabed b‘shirei y‘didot.<br><br>3A Asap‘ra ch‘vodcha velo r’i’ticha adamcha<br>achancha v’lo y’daticha.<br><br>3B B’yad n’viecha b’sod avadecha dimita hadar k’vod hodecha.<br><br>4A Gedulatcha ug’vuratecha kinu letokef<br>peulatecha.<br><br>4B Dimu otcha v’lo k’fi yeshcha vayeshavucha l’fi ma'asecha.<br><br>5A Himshilucha b’rov<br>chezyonot hincha echad b’chol dimyonot.<br><br>5B Vayechezu b’cha ziknah uvacharut,us’ar roshcha b’seiva v’shacharut.<br><br>6A Ziknah b’yom din uvacharut b’yom k’rav k’ish milchamot yadav lo rav.<br><br>6B Chavash kovah y’shuah b’rosho hoshia lo y’mino uzroah kodsho.<br><br>7A Tal’lei orot rosho nimlah k’vut’sotav r’sisei laila.<br><br>7B Yitpa'er bi ki chafetz bi, v’hu yihyeh li la'ateret tzvi.<br><br>8A Ketem tahor paz d’mut rosho, v’chak al metzach k’vod shem kodsho.<br><br>8B L‘chen ul‘chavod tzvi tifarah umato lo itra atara.<br><br>9A Machl’fot rosho k’vimei b’churot, k’vutzotav taltalim sh’chorot.<br><br>9B N’veh hatzedek tzvi tifarto ya'aleh na al rosh simchato.<br><br>10A S’gulato t’hi b’yado ateret utznif m’lucha tzvi tiferet.<br><br>10B Amusim nesa'am ateret indam me’asher ya’kru b'einav kib’dam.<br><br>11A P'ero alai uf’eri alav, v Corov eilai b curry eilav.<br><br>11B Tzach v’adom lilvusho adom pura v’dorcho b’vo'oh me'edom.<br><br>12A Kesher tefilin herah le'anav, temunat Adonai l’neged einav.<br><br>12B Rotzeh b'amo anavim y’fa’er, yoshev tehilot bam l’hit’pa’er.<br><br>13A Rosh d’varcha emet koreh merosh, dor vador am doreshcha d’rosh.<br><br>13B Sheet hamon shirai na alecha, v’rinati tikrav eileicha.<br><br>14A T’hilati t’hi l’roshcha ateret, ut’filati tikon k’toret.<br><br>14B Tikar shirat rush b'einecha kashir yushar al korbanecha.<br><br>15A Birchati Ta’Aleh L’rosh MaShbir, M’cholel U-Molid Tzadik KaBeer.<br><br>15B U-v’vivirchati T'na’a’nah Li Rosh, V'o’tah kach l’cha ki'visamim rosh<br><br>16 Ye'erav na sichi aleicha ki nafshi ta'arog eilecha.<br><br>17 Mee yimalel, g’vurot Adonoy, yashmiya kol tehillato.</div></td><td style='width:50%; padding-left:8px;' valign='top'><div id='hebrew' style='width:100%; direction:rtl; text-align:right;' class='font'>1A אַנְעִים זְמִירוֹת וְשִׁירִים אֶאֱרֹג כִּי אֵלֶיךָ נַפְשִׁי תַּעֲרֹג<br><br>1B נַפְשִׁי חָמְּדָה בְּצֵל יָדֶךָ<br>לָדַעַת כָּל רָז סוֹדֶךָ<br><br>2A מִדֵּי דַּבְּרִי בִּכְבוֹדֶךָ הוֹמֶה לִבִּי אֶל דּוֹדֶיךָ<br><br>2B עַל כֵּן אֲדַבֵּר בְּךָ נִכְבָּדוֹת	וְשִׁמְךָ אֲכַבֵּד בְּשִׁירֵי יְדִידוֹת<br><br>3A אֲסַפְּרָה כְבוֹדְךָ וְלֹא רְאִיתִיךָ	אֲדַמְּךָ אֲכַנְּךָ וְלֹא יְדַעְתִּיךָ<br><br>3B בְּיַד נְבִיאֶיךָ בְּסוֹד עֲבָדֶיךָ<br>דִּמִּיתָ הֲדַר כְּבוֹד הוֹדֶךָ<br><br>4A גְּדֻלָּתְךָ וּגְבוּרָתֶךָ	 	כִּנּוּ לְתֹקֶף פְּעֻלָּתֶךָ<br><br>4B דִּמּוּ אוֹתְךָ וְלֹא כְפִי יֶשְׁךָ<br>וַיְשַׁוּוּךָ לְפִי מַעֲשֶׂיךָ<br><br>5A הִמְשִׁילוּךָ בְּרֹב חֶזְיוֹנוֹת<br>הִנְּךָ אֶחָד בְּכָל דִּמְיוֹנוֹת<br><br>5B וַיֶּחֱזוּ בְךָ זִקְנָה וּבַחֲרוּת	וּשְׂעַר רֹאשְׁךָ בְּשֵׂיבָה וְשַׁחֲרוּת<br><br>6A זִקְנָה בְּיוֹם דִּין וּבַחֲרוּת בְּיוֹם קְרָב כְּאִישׁ מִלְחָמוֹת יָדָיו לוֹ רַב<br><br>6B חָבַשׁ כּוֹבַע יְשׁוּעָה בְּרֹאשׁוֹ הוֹשִׁיעָה לוֹ יְמִינוֹ וּזְרוֹעַ קָדְשׁוֹ<br><br>7A טַלְלֵי אוֹרוֹת רֹאשׁוֹ נִמְלָא <br>קְוֻצּוֹתָיו רְסִיסֵי לַיְלָה<br><br>7B יִתְפָּאֵר בִּי כִּי חָפֵץ בִּי<br>וְהוּא יִהְיֶה לִי לַעֲטֶרֶת צְבִי<br><br>8A כֶּתֶם טָהוֹר פָּז דְּמוּת רֹאשׁוֹ<br>וְחַק עַל מֶצַח כְּבוֹד שֵׁם קָדְשׁוֹ<br><br>8B לְחֵן וּלְכָבוֹד צְבִי תִּפְאָרָה<br>אֻמָּתוֹ לוֹ עִטְּרָה עֲטָרָה<br><br>9A מַחְלְפוֹת רֹאשׁוֹ כְּבִימֵי בְחוּרוֹת קְוֻצּוֹתָיו תַּלְתַּלִים שְׁחוֹרוֹת<br><br>9B נְוֵה הַצֶּדֶק צְבִי תִפְאַרְתּוֹ<br>יַעֲלֶה נָּא עַל רֹאשׁ שִׂמְחָתוֹ<br><br>10A סְגֻלָּתוֹ תְּהִי בְיָדוֹ עֲטֶרֶת וּצְנִיף מְלוּכָה צְבִי תִפְאֶרֶת<br><br>10B עֲמוּסִים נְשָׂאָם עֲטֶרֶת עִנְּדָם מֵאֲשֶׁר יָקְרוּ בְעֵינָיו כִּבְּדָם<br><br>11A פְּאֵרוֹ עָלַי וּפְאֵרִי עָלָיו<br>וְקָרוֹב אֵלַי בְּקָרְאִי אֵלָיו<br><br>11B צַח וְאָדֹם לִלְבוּשׁוֹ אָדֹפּוּרָה בְּדָרְכוֹ בְּבוֹאוֹ מֵאֱדוֹם<br><br>12A קֶשֶׁר תְּפִלִּין הֶרְאָה לֶעָנָו תְּמוּנַת ה' לְנֶגֶד עֵינָיו<br><br>12B רוֹצֶה בְּעַמּוֹ עֲנָוִים יְפָאֵר<br>יוֹשֵׁב תְּהִלּוֹת בָּם לְהִתְפָּאֵר<br><br>13A רֹאשׁ דְּבָרְךָ אֱמֶת קוֹרֵא מֵרֹאשׁ	 דּוֹר וָדוֹר עַם דּוֹרֶשְׁךָ דְּרֹשׁ<br><br>13B שִׁית הֲמוֹן שִׁירַי נָא עָלֶיךָ וְרִנָּתִי תִּקְרַב אֵלֶיךָ<br><br>14A תְּהִלָּתִי תְּהִי לְרֹאשְׁךָ עֲטֶרֶת וּתְפִלָּתִי תִּכּוֹן קְטֹרֶת<br><br>14B תִּיקַר שִׁירַת רָשׁ בְּעֵינֶיךָ<br>כְּשִּׁיר יוּשַׁר עַל קָרְבָּנֶיךָ<br><br>15A בִּרְכָתִי תַעֲלֶה לְרֹאשׁ מַשְׁבִּיר מְחוֹלֵל וּמוֹלִיד צַדִּיק כַּבִּיר<br><br>15B וּבְבִרְכָתִי תְנַעֲנַע לִי רֹאשׁ וְאוֹתָהּ קַח לְךָ כִּבְשָׂמִים רֹאשׁ<br><br>16 יֶעֱרַב נָא שִׂיחִי עָלֶיךָ<br>כִּי נַפְשִׁי תַעֲרֹג אֵלֶיךָ    <br><br>17 מִי יְמַלֶיל גְּבוּרוֹת יְיָ יָשׁמְיעָ <br>כְּל תְהִלָּתוֹ</div></td></tr><tr><td colspan='2'><br><h4 class='view'>Translation:</h4><div id='translation' style='width:100%; font-size:15px; word-wrap:break-word;'>1A Soothing songs and poems I weave because my soul longs for You.<br><br>1B My soul desires the shadow of your hand, to know every one of Your secrets.<br><br>2A Each time I speak of Your glory, my heart longs for Your love.<br><br>2B Therefore&#8203; I will speak about You, about Your glories. Your name I shall honor with love songs.<br><br>3A I’ll tell of Your glory, though I have never seen You. I’ll give people images for You and names for You, but I do not even know You.<br><br>3B By the hand of Your prophets or through private counsel with Your worshippe&#8203;rs, You provided images of the beauty and glory of Your power.<br><br>4A They named Your powerful deeds: "Your greatness&#8203;," "Your strength.&#8203;"<br><br>4B They imagined You, but not as You really are. They tried to describe You according&#8203; to Your deeds.<br><br>5A They made parables about You and provided a myriad of visions of You, yet here You are, One in all the different&#8203; forms.<br><br>5B They envisione&#8203;d You as an old man and as a young man, the hair on Your head as that of a man satisfied&#8203; in days or just at his dawn.<br><br>6A Old on the day of judgment,&#8203; and young at the battle front: a man of war with many hands.<br><br>6B You wear salvation&#8203; as a hat; Salvation&#8203; is Yours, exhibited&#8203; by your holy right arm.<br><br>7A His curls are as black as a downpour at night, but only light reflects in the drops.<br><br>7B He will be glorified&#8203; through me. He wants me. He is the crown of my desire.<br><br>8A Fine pure gold is my image for His head; on His forehead His glorious holy name is engraved.&#8203;<br><br>8B With grace, honor, and a magnifice&#8203;nt desire, His people wreath Him with a crown.<br><br>9A The locks of His hair are like a youth's; they are mounds of black curls.<br><br>9B A garden of justice is His greatest desire; it rises above His greatest joy.<br><br>10A When He holds His treasured&#8203; people as a crown in His hand, we are like a royal turban, a sign of His desire.<br><br>10B He carries us all, each of us with a crown. He values us. He honors us.<br><br>11A He adorns Himself for me and I adorn myself for Him. He is close to me when I call.<br><br>11B Bright and red, His garment is red. He makes his way on the path from Edom. [Sounds like "adom" which means "red".]<br><br>12A He showed the teffilin knot [he was wearing (at the base of the back of his head)] to His humble one [Moses]; an image of Adonai, seen with his own eyes.<br><br>12B He accepts His people, adorning the humble and being adorned by them, as He dwells among their praises.<br><br>13A Your chief word is "truth"; You've called it out since the beginning&#8203;. In each generatio&#8203;n people interpret&#8203; You and find meaning.<br><br>13B I humbly place before You this noise, my songs, so that my joy will draw near to You.<br><br>14A May my praise be a crown for Your head, my prayers be accepted like incense.<br><br>14B May the poor person's song be dear to You, like the songs that were offered with the sacrifice&#8203;s.<br><br>15A May my blessing rise up to You, the Sustainer&#8203;, the one who stirs up [the status quo], giving birth to justice like [water from] a well [quenches&#8203; thirst].<br><br>15B Please nod to acknowled&#8203;ge my blessing;&#8203; take it for Yourself as You took from the incense of old.<br><br>16 I hope that these words were sweet; they came out of my longing for You.<br><br>[17 He who verbalize&#8203;s God's strengths&#8203; will voice his (own) glory]<br><br>Trans&#8203;lation by Rabbi Shai Gluskin<br></div></td></tr><tr><td colspan='2'><br><h4 class='view'>Information:</h4><div id='information' style='width:100%; font-size:15px; word-wrap:break-word;'>Original translation by Rabbi Shai Gluskin (not including line 17) can be found at <a href="http://everydayandeverynight.com/anim-zemirot">http://everydayandeverynight.com/anim-zemirot</a>. The translation is used here with permission.<br></div></td></tr><tr><td colspan='2'><br><div id='showrectitle'><h4 class='view'>
+		<a href='#rec' name='rec' onclick="displayrecordings('59','203,219,647,648,649,650,651,957,')"  id='loadrecordings' style='border:none; display:none'>Load recordings (there are 8 recordings)</a><noscript><a href='view_song.php?id=59&recordings=1#rec' name='rec'> Click to reload with recordings</a></noscript></h4></div>
+		  <div id='recordings' style='width:100%; font-size:15px'> 
+		  <script language='javascript' type='text/javascript'>	
+			show('loadrecordings');
+		</script>
+		  </div><tr><td  colspan='2'><br><h4 class='view'>Categories:</h4>
+<div id='categories' style='width:100%; font-size:15px'><a href='view_category.php?id=5'>Pesach</a><br><br></div></td></tr></table>
+
+<center><a href='copyright_report.php?id=59' style='font-size:12px'>Report copyright infringement/submit DMCA request</a></center>
+
+</div>
+</div>
+<div id="footer">
+    <div align="center"> 
+      <ul>
+      	<li><a href="faq.php">FAQ</a>&nbsp;</li>
+        <li><a href="contact2.php">Contact Us</a>&nbsp;</li>
+        <li><a href="copyright.php">Copyright Policy</a></li>
+        <li><a href="copyright_report.php#dmca">DMCA Policy and Agent Info</a></li>
+         <li><a href="links.php">Links and Partners</a></li>
+         <li><a href="http://acum.org.il"><img src="acum.png" height="20" style="vertical-align:bottom"/> השירות פועל ברישיון אקו"ם</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+</html>

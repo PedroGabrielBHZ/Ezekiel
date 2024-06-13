@@ -1,0 +1,305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta http-equiv="content-type" content="text-html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="style2.css">
+
+<title> View Song:  Lecha E-li Teshukati לך א-לי תשוקתי</title>
+
+<meta property="og:title" content="Lecha E-li Teshukati לך א-לי תשוקתי" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" >
+<meta property="og:type" content="article" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:url" content="http://zemirotdatabase.org/view_song.php?id=549" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:image" content="http://zemirotdatabase.org/logosquare.jpg" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:site_name" content="Zemirot Database" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="fb:admins" content="1665840143,1341720084" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="swfobject/swfobject.js"></script>
+<script language="javascript" type="text/javascript">
+
+
+	function hide(x) {
+			document.getElementById(x).style.display='none';}
+	
+	function show(x) {
+			document.getElementById(x).style.display='';}
+
+	function hiderecordings() {
+		document.getElementById('recordings').innerHTML='';
+		show('showrectitle');
+	}
+	
+	function Inint_AJAX() {
+	//ajax call
+		try { return new ActiveXObject("Msxml2.XMLHTTP");  } catch(e) {} //IE
+		try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch(e) {} //IE
+		try { return new XMLHttpRequest();          } catch(e) {} //Native Javascript
+		alert("XMLHttpRequest not supported");
+		return null;
+	}
+	
+	function setCookie(c_name,value,exdays)
+	{
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	}
+	
+	function getCookie(c_name)
+	{
+	  var i,x,y,ARRcookies=document.cookie.split(";");
+	  for (i=0;i<ARRcookies.length;i++)
+	  {
+		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x=x.replace(/^\s+|\s+$/g,"");
+		
+		if (x==c_name)
+		{
+		  return unescape(y);
+		}
+	  }
+	}
+	
+	var flash_support;
+	var zdflash = getCookie("zdflash");
+	
+	if (zdflash != null) {
+	  if (zdflash == 2)
+		  flash_support = 2;
+	  else 
+		  flash_support = 1;
+	}
+	
+	else {
+		if(swfobject.hasFlashPlayerVersion("1")) {
+			setCookie("zdflash",1,500);
+			flash_support = 1;
+			}
+		else {
+			setCookie("zdflash",2,500);
+			flash_support = 2;
+		}
+	}
+		
+	function increaselike(recording_id) {
+		var req = Inint_AJAX();
+
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('ratingnumber_'+recording_id).innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "increase_like.php?recording_id="+recording_id;
+		
+		req.open("GET", url); //make connection
+
+	
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	function toggle_flash (song_id, recording_csv, flash_support_local) {
+	
+		setCookie("zdflash",flash_support_local,500);
+		flash_support = flash_support_local;
+		displayrecordings(song_id, recording_csv);
+			
+	}
+	
+	function displayrecordings(song_id, recording_csv) {
+		
+		
+		document.getElementById('recordings').innerHTML="<img src='ajax-loader.gif'>";
+		var req = Inint_AJAX();
+		hide('showrectitle');
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('recordings').innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "display_recordings.php?song_id="+song_id+"&recording_csv="+recording_csv+"&flash_support="+flash_support;
+		
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	var played = new Array(); 
+
+	function hitcounter(recording_id) {
+	
+	 if(played.indexOf(recording_id) == -1 ){
+		played.push(recording_id);
+				
+		var req = Inint_AJAX();
+		
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+		  }
+		}
+		}
+		
+		url = "recording_counter.php?recording_id="+recording_id+"&song_id=549";
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	 }
+	}
+	
+	
+</script>
+
+</head>
+<body>
+
+<div id="wrapper"
+style = 'min-width:255px' >
+ 
+  <div id="header"><img src="logo.gif" width="255" height="78" /></div>
+  <div id="navbar">
+    <ul>
+    
+      <li><a href="index.php">Home</a></li>
+      <li><a href="song_index.php">Song Index</a></li>
+       <li><a href="search.php">Search</a></li>
+      <li><a href="add_song.php">Add a Song</a></li>
+      <li><a href="members.php">Members</a></li>
+     
+      <li><a href="log_in.php?next=view_song.php&id=549">Log In</a></li>
+      <li><a href="add_user.php">Create Account</a></li>
+      
+          <li><a href="socialmedia.php">Social Media</a></li>
+     
+    </ul>
+    
+  </div>
+
+
+
+	
+
+		<table style='width:100%'><tr>
+	<td style='white-space:nowrap; padding-left:5px;'>
+		<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fzemirotdatabase.org%2Fview_song.php%3Fid%3D549&amp;send=false&amp;layout=button_count&amp;width=10&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+		<g:plusone size="medium"></g:plusone>
+	</td>
+	<td	style='width:80%'>
+	</td>
+	<td style='padding-right:5px;'>
+		<script type="text/javascript">
+function showResult(str)
+{
+if (str.length < 3)
+  { 
+  document.getElementById("livesearch").innerHTML="";
+  document.getElementById("livesearch").style.border="0px";
+  document.getElementById("livesearch").style.display="none";
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
+    if(xmlhttp.responseText != ""){
+    	document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+    	document.getElementById("livesearch").style.display="";
+    }
+    }
+  }
+xmlhttp.open("GET","livesearch.php?title="+str,true);
+xmlhttp.send();
+}
+</script>
+
+
+
+
+<form action="simple_search.php" method="get" style="display:inline; margin:0; padding:0;">
+	<input type="search" autocomplete="off" name="str" id="strt" value="" placeholder="Search titles" onFocus="this.value=''" onkeyup="showResult(this.value)" style="display:inline; width:88px; padding:0px; text-align:center;"/>
+</form>
+
+	<br><div align='right' id="livesearch" style="width:120px;display:none;position:absolute;text-align:left;right:6.8%;"></div>	
+	</td>
+	</table>
+	
+		<script language="javascript" type="text/javascript">
+ 		var strt = document.getElementById('strt');
+ 		if (!('placeholder' in strt)) {
+ 			strt.value = "Search!"; 
+ 		}
+ 	</script>
+	
+	
+<div id="content">
+
+	
+
+
+
+<center><div>
+<table><tr><td style='text-align:center'>
+<h1 style='display:inline'>Lecha E-li Teshukati</h1>&nbsp;&nbsp;<h5>לך א-לי תשוקתי</h5></td></tr>
+<tr><td style='text-align:center'><h4>
+<a href='edit_song.php?id=549'>Edit Song</a> &#8226; <a href='discussion.php?id=549'>Discussion</a> &#8226; 
+<a href='song_history.php?id=549'>History</a> &#8226; <a href='print.php?song_id=549' target='_blank'>Print</a></h4>
+
+</td></tr></table></div></center>
+<div style='margin-left:auto; margin-right:auto; text-align:left; width:90%; max-width:650px;' >
+<table width='100%' class='centered'><tr><td valign='top'><div id='transliteration' style=' font-size:15px; word-wrap:break-word;'></div></td><td style='width:50%; padding-left:8px;' valign='top'><div id='hebrew' style='width:100%; direction:rtl; text-align:right;' class='font'>לְךָ אֵלִי תְּשׁוּקָתִי	 	בְּךָ חֶשְׁקִי וְאַהֲבָתִי<br>לְךָ לִבִּי וְכִלְיוֹתַי	 	לְךָ רוּחִי וְנִשְׁמָתִי<br>לְךָ יָדַי לְךָ רַגְלַי	 	וּמִמָּךְ הִיא תְּכוּנָתִי<br>לְךָ עַצְמִי לְךָ דָמִי	 	וְעוֹרִי עִם גְּוִיָּתִי<br>לְךָ עֵינַי וְרַעְיוֹנַי	 	וְצוּרָתִי וְתַבְנִיתִי<br>לְךָ רוּחִי לְךָ כֹחִי	 	וּמִבְטַחִי וְתִקְוָתִי<br>לְךָ לִבִּי וְדַם חֶלְבִּי	 	כְּשֶׂה אַקְרִיב וְעוֹלָתִי<br>לְךָ יָחִיד בְּלִי שֵׁנִי	 	לְךָ תוֹדֶה יְחִידָתִי<br>לְךָ מַלְכוּת לְךָ גֵאוּת	 	לְךָ תֵאוֹת תְּהִלָּתִי<br>לְךָ עֶזְרָה בְּעֵת צָרָה	 	הֱיֵה עֶזְרִי בְּצָרָתִי<br>לְךָ אוֹחִיל בְּעֵת אָחִיל	 	כְּיוֹלֵדָה בְּאַנְחָתִי<br>לְךָ שִׂבְרִי רְפָא שִׁבְרִי	 	וְאֶת צִירִי וּמַכָּתִי<br>לְךָ אֶהֱמֶה וְלֹא אֶדְמֶה	 	עֲדֵי תָּאִיר אֲפֵלָתִי<br>לְךָ נֶצַח בְּךָ אֶבְטַח	 	וְאַתָּה הוּא אֱיָלוּתִי<br>לְךָ אֶזְעַק בְּךָ אֶדְבַּק	 	עֲדֵי שׁוּבִי לְאַדְמָתִי<br>לְךָ אֲנִי בְּעוֹדִי חַי	 	וְאַף כִּי אַחֲרֵי מוֹתִי<br>לְךָ אוֹדֶה וְאֶתְוַדֶּה	 	עֲלֵי חֶטְאִי וְרִשְׁעָתִי<br>לְךָ יִשְׁעִי סְלַח רִשְׁעִי	 	וְאֶת פִּשְׁעִי וְאַשְׁמָתִי<br>לְךָ אִכַּף וְאֶפְרֹשׁ כַּף	 	שְׁמַע נָא אֶת תְּחִנָתִי<br>לְךָ אֶבְכֶּה בְּלֵב נִדְכֶּה	 	בָּרֹב שִׂיחִי וְתוּגָתִי<br>לְךָ חֶסֶד לְךָ חֶמְלָה	 	חֲמֹל עַל כָּל תְּלָאוֹתִי<br>וְגָדוֹל מִנְּשׂוֹא חֶטְאִי	 	וְגָדְלָה יַָד מְשׁוּבָתִי<br>וְלָכֵן גָּדְלוּ צִירַי	 	וְקָצַרְתִי זְרִיעָתִי<br>וְאוֹי עָלַי וְהָהּ לִי אִם	 	תְּדִינֵנִי כְּרִשְׁעָתִי<br>וְיִצְרִי צוֹרְרִי תָמִיד	 	כְּמוֹ שָׂטָן לְעֻמָתִי<br>יְעָצַנִי וּפִתָּנִי	 	בְּמוֹעֵצוֹת לְרָעָתִי<br>וְעָלָיו לֹא עֲלֵי בִּלְתּוֹ	 	חֲמָסִי עִם תְלוּנָתִי<br>וְעֵת יַעֲלוּ עֲלֵי לִבִּי	 	עֲוֹנוֹתַי בְּמִטָּתִי<br>מְאֹד אֶפְחַד וְגַם אֶרְעַד	 	מְאֹד יִגְדַּל מְהוּמָתִי<br>וְאֶרְגַּז עֵת אֱהִי זוֹכֵר	 	לְפָנֶיךָ מְעֻוָתִי<br>וְאֶעֱמֹד נֶגְדְּךָ עֵרוֹם	 	וּמַה תִהְיֶה תְשׁוּבָתִי<br>בְּיוֹם בִּי יַעֲנֶה כַּחְשִׁי	 	וְאֹכַל מִפְּרִי דָתִי<br>וְיָבוֹאוּ יְמֵי שִׁלוּם	 	וְתִקְרַב עֵת פְּקֻדָתִי<br>וְשִׁמְעָךְ עֵת שְׁמַעְתִּיהוּ	 	מְאֹד זַעְתִּי וְיָרֵאתִי<br>וּמִי יַעֲמֹד לְפָנֶיךָ	 	וּמִי יִהְיֶה תְמוּרָתִי<br>וְאֵיךְ חֶשְׁבּוֹן לְךָ אֶתֵן	 	וְאֵיךְ אֶצְדַּק בְּטַעֲנָתִי<br>וְאָשַׁמְתִּי וְאָרַבְתִי	 	וּבָגַדְתִּי וּבָזִיתִי<br>וְגָזַלְתִּי וְגָנַבְתִּי	 	הֲרֵעוֹתִי וְהִרְשַׁעְתִּי<br>וְגַם זַדְתִּי וְחָמַסְתִּי	 	וְחָטָאתִי וְהֶחְטֵאתִי<br>וְטָעִיתִי וְיָעַצְתִּי	 	וְכִזַּבְתִּי וְכָפַרְתִּי<br>וְלוֹצַצְתִּי וְגַם לַצְתִּי	 	וּמָרַדְתִּי וּמָרִיתִי<br>וְנִאַצְתִּי וְנִאַפְתִּי	 	וְסָרַרְתִּי וְסָרַחְתִּי<br>וַעָוִיתִי וְהֶעֱוֵיתִי	 	וּפָשַׁעְתִּי וּפָגַמְתִּי<br>וְצָרַרְתִּי וְצִעַרְתִּי	 	וְקִלַּלְתִּי וְקִלְקַלְתִּי<br>וְרָשַׁעְתִּי וְשִִׁׂחַתְתִּי	 	וְתִעַבְתִּי וְתָעִיתִי<br>וְסַרְתִּי מִדְּרָכֶיךָ	 	וְכִסַּתְנִי כְלִמָּתִי<br>וְהִגְדַּלְתִּי עֲשׂוֹת רֶשַׁע	 	וְהֶחֱזַקְתִּי בְּרִשְׁעָתִי<br>וְכִחַשְׁתִי וּמָעַלְתִּי	 	וְעָשַׁקְתִּי וְרַצּוֹתִי<br>וְחָטָאתִי בְּרֵאשִׁיתִי	 	וְרָשַׁעְתִּי בְּאַחֲרִיתִי<br>וְאָשַׁמְתִּי בְּיַלְדוּתִי	 	וּבָגַדְתִּי בְּזִקְנָתִי<br>וּבָחַלְתִּי בְּתוֹרָתְךָ	 	וּבָחַרְתִּי בְּתוֹרָתִי<br>וְעָזַבְתִּי רְצוֹנְךָ	 	וְהָלַכְתִי בְּתַאֲוָתִי<br>וְהִשְׁלַמְתִּי רְצוֹן יִצְרִי	 	וְלֹא בַּנְתִּי לְאַחֲרִיתִי<br>וְהִרְבֵּיתִי לְהוֹסִיף חֵטְא	 	עֲלֵי רִשְׁעִי וְחוֹבָתִי<br>וְלָכֵן כִּסְּתָה פָנַי	 	כְּלִמָּתִי וְגַם בּוֹשְׁתִּי<br>וְאֵין לִי בִּלְתְּךָ מָנוֹס	 	וּמִמָךְ הִיא סְלִיחָתִי<br>וּמוֹחֵל בִּלְתְּךָ אַיִן	 	וּמֵאִתָּךְ מְחִילָתִי<br>וְאִם תָּבִיא בְּמִשְׁפָּט עַבְ-	 	דְּךָ מַה הִיא גְבוּרָתִי<br>וּמָה אֲנִי וּמַה חַיָּי	 	וּמַה כֹּחִי וְעָצְמָתִי<br>כְּקַשׁ נִדָף מְאֹד נֶהְדָּף	 	וְאֵיךְ תִזְכֹּר מְשׁוּגָתִי<br>וְנֶאֱלַמְתִּי וְנִכְלַמְתִּי	 	וְכִסַּתְנִי כְלִמָּתִי<br>רְצוֹנָךְ אֶשְׁאֲלָה תָּמִיד	 	לְמַלְּאוֹת אֶת שְׁאֵלָתִי<br>וְהֶרֶב כַּבְּסֵנִי	 	מֵעֲוֹנוֹתַי וְחַטָּאתִי<br>וְהַבֵּט רֹב תְלָאוֹתַי	 	וְדַלוּתִי בְּגַָלוֹּתִי<br>וְאַל נָא תַּעְלֵם אָזְנָךְ	 	לְרַוְחָתִי לְשַׁוְעָתִי<br>עֲרֹב עַבְדָּךְ לְטוֹבָה גַּם	 	אֱמֹר נָא דַי לְצָרָתִי<br>וְהַרְאֵנִי תְשׁוּעָתָךְ	 	בְּטֶרֶם יוֹם תְּמוּתָתִי<br>וְיוֹם נָפְלִי בְּפַח מוֹקְשִֵׁי	 	סְמֹךְ נָא אֶת נְפִילָתִי<br>וְלַעֲנָה שָׂבְעָה נַפְשִׁי	 	עֲדֵי קַצְתִּי בְְּחַיָּתִי<br>עֲשֵׂה עִמִּי לְטוֹבָה אוֹת	 	וְקוּמָה נָּא לְעֶזְרָתִי<br>הֲכִי אַתָּה מְנַת חֶלְקִי	 	וְרִנָּתִי וְטוֹבָתִי<br>וְגוֹרָלִי וּמַהֲלָלִי	 	וְכָל גִּילִי וְשִׂמְחָתִי<br>שְׂשׂוֹן לִבִּי וְאוֹר עֵינַי	 	וּמָעֻזִי וְחֶמְדָתִי<br>וּמַרְגּוֹעִי וְשַׁעֲשׁוּעִי	 	מְנוּחָתִי וְשַׁלְוָתִי<br>הֲבִינֵנִי עֲבוֹדָתְךָ	 	וְלָךְ תִהְיֶה עֲבוֹדָתִי<br>הֲשִׁיבֵנִי וְאָשׁוּבָה	 	וְתִרְצֶה אֶת תְשׁוּבָתִי<br>וְהוֹרֵַנִי דְרָכֶיךָ	 	וְיַשֵּׁר אֶת נְתִיבָתִי<br>וְתִשְׁמַע אֶת תְְּפִלָּתִי	 	וְתַעֲנֶה אֶת עֲתִירָתִי<br>בְּכָל לִבִּי דְְּרַשְׁתִּיךָ	 	עֲַנֵנִי יָהּ דְּרִישָׁתִי<br>אֲנַסֵּךָ אֶת דְּמָעַי לָךְ	 	מְחֵה חֶטְאִי בְּדִמְעָתִי<br>וְנַפְשִׁי אָמְרָה חֶלְקִֵי	 	יְיָ הִיא וְנַחֲלָתִי<br>אֱסֹף נָא אֶת עֲוֹנוֹתַי	 	בְּחַסְדַָּךְ יוֹם אֲסִיפָתִי<br>וְיוֹם לֶכְתִּי לְפָנֶיךָ	 	רְצֵה נָא אֶת הֲלִיכָתִי<br>וְעִם עוֹשֵׂי רְצוֹנֵֶךְ	 	תְּנָה שְׂכַר פְּעֻלָּתִי<br>וְתִשְׁלַח מַלְאֲכֵי הַחֵן	 	וְיֵצְאוּ נָא לְעֻמָּתִי<br>וְשָׁלוֹם בּוֹאֲךָ יֹאמְרוּ	 	בְּקוֹל אֶחָד בְּבִיאָתִי<br>יְבִיאוּנִי לְגַן עֶדְנָךְ	 	וְשָׁם תִּהְיֶה יְשִׁיבָתִי<br>וְאֶתְעַדֵּן בְּאוֹרֶךָ	 	וְשִׂים כָּבוֹד מְנוּחָתִי<br>וְאוֹר גָנוּז לְפָנֶיךָ	 	יְהִי סִתְרִי וְסֻכָּתִי<br>וְתַחַת צֵל כְּנָפֶיךָ	 	תְּנָהָ נָּא אֶת מְחִצָתִי</div></td></tr><tr><td colspan='2'><br><h4 class='view'>Information:</h4><div id='information' style='width:100%; font-size:15px; word-wrap:break-word;'>Sefaradi Piyut sung on Leil Yom Kippur<br></div></td></tr><tr><td colspan='2'><br><div id='showrectitle'><h4 class='view'>
+		<a href='#rec' name='rec' onclick="displayrecordings('549','947,')"  id='loadrecordings' style='border:none; display:none'>Load recordings (there is 1 recording)</a><noscript><a href='view_song.php?id=549&recordings=1#rec' name='rec'> Click to reload with recordings</a></noscript></h4></div>
+		  <div id='recordings' style='width:100%; font-size:15px'> 
+		  <script language='javascript' type='text/javascript'>	
+			show('loadrecordings');
+		</script>
+		  </div><tr><td  colspan='2'><br><h4 class='view'>Categories:</h4>
+<div id='categories' style='width:100%; font-size:15px'><a href='view_category.php?id=4'>High Holiday</a><br><a href='view_category.php?id=18'>Sefardi</a><br><br></div></td></tr></table>
+
+<center><a href='copyright_report.php?id=549' style='font-size:12px'>Report copyright infringement/submit DMCA request</a></center>
+
+</div>
+</div>
+<div id="footer">
+    <div align="center"> 
+      <ul>
+      	<li><a href="faq.php">FAQ</a>&nbsp;</li>
+        <li><a href="contact2.php">Contact Us</a>&nbsp;</li>
+        <li><a href="copyright.php">Copyright Policy</a></li>
+        <li><a href="copyright_report.php#dmca">DMCA Policy and Agent Info</a></li>
+         <li><a href="links.php">Links and Partners</a></li>
+         <li><a href="http://acum.org.il"><img src="acum.png" height="20" style="vertical-align:bottom"/> השירות פועל ברישיון אקו"ם</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+</html>

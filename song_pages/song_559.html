@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta http-equiv="content-type" content="text-html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="style2.css">
+
+<title> View Song:  Shakah Chamah שָׁקְעָה חַמָּה, שָׁקְעָה נַפְשִׁי</title>
+
+<meta property="og:title" content="Shakah Chamah שָׁקְעָה חַמָּה, שָׁקְעָה נַפְשִׁי" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" >
+<meta property="og:type" content="article" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:url" content="http://zemirotdatabase.org/view_song.php?id=559" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:image" content="http://zemirotdatabase.org/logosquare.jpg" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:site_name" content="Zemirot Database" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="fb:admins" content="1665840143,1341720084" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="swfobject/swfobject.js"></script>
+<script language="javascript" type="text/javascript">
+
+
+	function hide(x) {
+			document.getElementById(x).style.display='none';}
+	
+	function show(x) {
+			document.getElementById(x).style.display='';}
+
+	function hiderecordings() {
+		document.getElementById('recordings').innerHTML='';
+		show('showrectitle');
+	}
+	
+	function Inint_AJAX() {
+	//ajax call
+		try { return new ActiveXObject("Msxml2.XMLHTTP");  } catch(e) {} //IE
+		try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch(e) {} //IE
+		try { return new XMLHttpRequest();          } catch(e) {} //Native Javascript
+		alert("XMLHttpRequest not supported");
+		return null;
+	}
+	
+	function setCookie(c_name,value,exdays)
+	{
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	}
+	
+	function getCookie(c_name)
+	{
+	  var i,x,y,ARRcookies=document.cookie.split(";");
+	  for (i=0;i<ARRcookies.length;i++)
+	  {
+		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x=x.replace(/^\s+|\s+$/g,"");
+		
+		if (x==c_name)
+		{
+		  return unescape(y);
+		}
+	  }
+	}
+	
+	var flash_support;
+	var zdflash = getCookie("zdflash");
+	
+	if (zdflash != null) {
+	  if (zdflash == 2)
+		  flash_support = 2;
+	  else 
+		  flash_support = 1;
+	}
+	
+	else {
+		if(swfobject.hasFlashPlayerVersion("1")) {
+			setCookie("zdflash",1,500);
+			flash_support = 1;
+			}
+		else {
+			setCookie("zdflash",2,500);
+			flash_support = 2;
+		}
+	}
+		
+	function increaselike(recording_id) {
+		var req = Inint_AJAX();
+
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('ratingnumber_'+recording_id).innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "increase_like.php?recording_id="+recording_id;
+		
+		req.open("GET", url); //make connection
+
+	
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	function toggle_flash (song_id, recording_csv, flash_support_local) {
+	
+		setCookie("zdflash",flash_support_local,500);
+		flash_support = flash_support_local;
+		displayrecordings(song_id, recording_csv);
+			
+	}
+	
+	function displayrecordings(song_id, recording_csv) {
+		
+		
+		document.getElementById('recordings').innerHTML="<img src='ajax-loader.gif'>";
+		var req = Inint_AJAX();
+		hide('showrectitle');
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('recordings').innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "display_recordings.php?song_id="+song_id+"&recording_csv="+recording_csv+"&flash_support="+flash_support;
+		
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	var played = new Array(); 
+
+	function hitcounter(recording_id) {
+	
+	 if(played.indexOf(recording_id) == -1 ){
+		played.push(recording_id);
+				
+		var req = Inint_AJAX();
+		
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+		  }
+		}
+		}
+		
+		url = "recording_counter.php?recording_id="+recording_id+"&song_id=559";
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	 }
+	}
+	
+	
+</script>
+
+</head>
+<body>
+
+<div id="wrapper"
+style = 'min-width:255px' >
+ 
+  <div id="header"><img src="logo.gif" width="255" height="78" /></div>
+  <div id="navbar">
+    <ul>
+    
+      <li><a href="index.php">Home</a></li>
+      <li><a href="song_index.php">Song Index</a></li>
+       <li><a href="search.php">Search</a></li>
+      <li><a href="add_song.php">Add a Song</a></li>
+      <li><a href="members.php">Members</a></li>
+     
+      <li><a href="log_in.php?next=view_song.php&id=559">Log In</a></li>
+      <li><a href="add_user.php">Create Account</a></li>
+      
+          <li><a href="socialmedia.php">Social Media</a></li>
+     
+    </ul>
+    
+  </div>
+
+
+
+	
+
+		<table style='width:100%'><tr>
+	<td style='white-space:nowrap; padding-left:5px;'>
+		<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fzemirotdatabase.org%2Fview_song.php%3Fid%3D559&amp;send=false&amp;layout=button_count&amp;width=10&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+		<g:plusone size="medium"></g:plusone>
+	</td>
+	<td	style='width:80%'>
+	</td>
+	<td style='padding-right:5px;'>
+		<script type="text/javascript">
+function showResult(str)
+{
+if (str.length < 3)
+  { 
+  document.getElementById("livesearch").innerHTML="";
+  document.getElementById("livesearch").style.border="0px";
+  document.getElementById("livesearch").style.display="none";
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
+    if(xmlhttp.responseText != ""){
+    	document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+    	document.getElementById("livesearch").style.display="";
+    }
+    }
+  }
+xmlhttp.open("GET","livesearch.php?title="+str,true);
+xmlhttp.send();
+}
+</script>
+
+
+
+
+<form action="simple_search.php" method="get" style="display:inline; margin:0; padding:0;">
+	<input type="search" autocomplete="off" name="str" id="strt" value="" placeholder="Search titles" onFocus="this.value=''" onkeyup="showResult(this.value)" style="display:inline; width:88px; padding:0px; text-align:center;"/>
+</form>
+
+	<br><div align='right' id="livesearch" style="width:120px;display:none;position:absolute;text-align:left;right:6.8%;"></div>	
+	</td>
+	</table>
+	
+		<script language="javascript" type="text/javascript">
+ 		var strt = document.getElementById('strt');
+ 		if (!('placeholder' in strt)) {
+ 			strt.value = "Search!"; 
+ 		}
+ 	</script>
+	
+	
+<div id="content">
+
+	
+
+
+
+<center><div>
+<table><tr><td style='text-align:center'>
+<h1 style='display:inline'>Shakah Chamah</h1>&nbsp;&nbsp;<h5>שָׁקְעָה חַמָּה, שָׁקְעָה נַפְשִׁי</h5></td></tr>
+<tr><td style='text-align:center'><h4>
+<a href='edit_song.php?id=559'>Edit Song</a> &#8226; <a href='discussion.php?id=559'>Discussion</a> &#8226; 
+<a href='song_history.php?id=559'>History</a> &#8226; <a href='print.php?song_id=559' target='_blank'>Print</a></h4>
+
+</td></tr></table></div></center>
+<div style='margin-left:auto; margin-right:auto; text-align:left; width:90%; max-width:650px;' >
+<table width='100%' class='centered'><tr><td valign='top'><div id='transliteration' style=' font-size:15px; word-wrap:break-word;'></div></td><td style='width:50%; padding-left:8px;' valign='top'><div id='hebrew' style='width:100%; direction:rtl; text-align:right;' class='font'>שָׁקְעָה חַמָּה, שָׁקְעָה נַפְשִׁי<br>בִּתְהוֹם יְגוֹנָהּ הָרַב כָּיָם<br>כִּי עוֹמְדָה לִפֹּל הִיא בְּמִלְחַמְתָּהּ<br>אֶת הַבָּשָׂר וְאֶת הַדָּם<br><br>זָרְחָה חַמָה, זָרְחָה נַפְשִׁי,<br>לִקְרַת יוֹצְרִי כְּאַרִי עוּרה.<br>שֶׁהִחְזִיר בִּי בְּחֶמְלָה נִשְׁמָתִי,<br>בְּאֶמוּנָה רַבָּה, אוֹדֶה בְּשִׂמְחָה.<br><br>יָמַי עוֹבְרִים, יָמַי כָּלִים<br>מִבְּלִי קַחַת, מִבְּלִי תֵת<br>אִם לָזֹאת קָרָאתָ 'חַיִּים'<br>אֱמָר נָא, אֵ־לִי, מַה זֶּה 'מֵת'?!<br><br>יָמַי חוֹלְפִים יָמַי בָּאִים,<br>לֹא אִירָא רַע אַתָּה עִמָדִי,<br>וּמוֹצָאַךָ מָצְאוּ חַיִּים,<br>לְאַדוֹן הַכֹּל תֵּת כָּל שֶׁיֵשׁ לִי.<br><br>חוּסָה, אֵ־לִי, כִּי לֹא אֵדַע<br>אֵיכָה אוּכַל כֹּה לִחְיוֹת?<br>הַאִם לִשְׁכֹּחַ כֹּל וּשְׂמֹחַ<br>אוֹ לִזְכֹּר הַכֹּל וּבְכוֹת?<br><br>זֹאת אַבַקֵשׁ לִחְיוֹת כֹּה,<br>לַחְסוֹת תּמִיד בְּצִלְךָ.<br>לֹא לִשְׁכֹּחַ תּמִיד וּשְׂמֹח– <br>לִזְכֹּר לָדַעַת אֶת מַתְּנָתֶךָ.<br><br>הַחֲיֵינִי, אֵ־לִי, נָא לְמָחָר –<br>אוּלַי אֶפְתֹּר אֶת הַחֲלוֹם<br>שָׁקְעָה חַמָּה, עָבִים בָּאִים<br>לַיְלָה עוֹלֶה מִן הַתְּהוֹם. <br><br>הַמְשֵׁך לְגֹמְלֵי נַחַת וְשַׁלְוָה –<br>בְּתּוֹרָה הַקְדוֹשָׁה אַנִי עָמֵל.<br>זָרְחָה חַמָה, זָרְחָה נַפְשִׁי,<br>הַחֲיֵינִי, אֵ־לִי עַד בִּיאַת גוֹאֵל.</div></td></tr><tr><td colspan='2'><br><h4 class='view'>Translation:</h4><div id='translation' style='width:100%; font-size:15px; word-wrap:break-word;'>The sun has set, my Soul has sunk,<br>In the depths of despair as vast as the ocean,<br>For it (my Soul) is poised to fall into its war<br>Along&#8203; with my flesh and blood<br><br>The sun rises again,<br>My Soul now shines,<br>To greet my Maker,<br>As an awakening&#8203; lion,<br>For with compassio&#8203;n He has returned my Soul within me,<br>With utmost faith – I thank Him with Joy.<br><br>My days do pass, my days do end,<br>Neith&#8203;er taking nor giving.<br>If this is what you call "Life",<br>Tell me, my G-d, what is Death?!<br><br>My days do change, my days do come,<br>I fear no evil because You stand with me,<br>And one who finds You, finds Life,<br>To the Master of All, Who give me everythin&#8203;g.<br><br>Have mercy, my G-d, for I do not know<br>How I can continue to live like this.<br>Is it better to forget all and be happy,<br>Or remember all and weep?<br><br>This is how I seek to live,<br>Alway&#8203;s taking shelter in your shade,<br>To never forget, and yet remain joyful,<br>As I recall and am aware of all of Your gifts.<br><br>Keep me alive, my G-d please, until tomorrow,&#8203;<br>For maybe I will finally solve the dream,<br>The sun is setting, the clouds are coming,<br>Night&#8203; is rising from the depths.<br><br>Conti&#8203;nue to bestow upon me peace and serenity – <br>In the Holy Torah I toil.<br><br>The sun rises!<br>My Soul now shines!<br>Keep me alive, my G-d, until the Redeemer arrives.<br><br>(Tran&#8203;slated by YS -own translati&#8203;on)<br></div></td></tr><tr><td colspan='2'><br><h4 class='view'>Information:</h4><div id='information' style='width:100%; font-size:15px; word-wrap:break-word;'>In the year 1907 (תרס"ז) , while still a bochur of 17 years old at the famed Slabodka Yeshiva, the Gaon Rav Avrohom Eliyahu Kaplan zt”l composed the poem, Shaka Chama.<br>Although Slabodka exemplified itself on Mussar from a perspective of “Gadlos HaAdom” “the greatness of man”, this poem was inspired by a different set of emotions and composed from the perspective of a yearning, embattled Soul.  <br>The poem was set to the tune of an 1894 composition by Shaul Tchernichovsky and most probably has its origins in a Russian folk tune, but as with many niggunim, it was elevated and the sparks of holiness within it were liberated when it was modified by Rav Avrohom Eliyahu for his mussar poem.<br>Rav Avrohom Eliyahu’s original lyrics only included stanzas 1,3,5 & 7 and was much darker and plaintive in tone.<br>However, in 2015 (תשע"ה) for the occasion of his daughter’s wedding,  Los Angeles businessman and philanthropist Reb Shlomo Yehuda Rechnitz composed an amazing addendum to the poem: an original high part with its own lyrics, vocalized by Reb Shlomo Yehuda himself.<br>While the tune of the addendum is clearly inspired by the original melody, the new lyrics he composed, which are stanzas 2,4,6 & 8, shift the tone of the original poem to a more uplifting and positive theme.<br>For a higher quality version of Reb Shlomo Yehuda’s rendition and addendum, see https://youtu.be/tC8qf-qs9H0<br></div></td></tr><tr><td colspan='2'><br><div id='showrectitle'><h4 class='view'>
+		<a href='#rec' name='rec' onclick="displayrecordings('559','975,')"  id='loadrecordings' style='border:none; display:none'>Load recordings (there is 1 recording)</a><noscript><a href='view_song.php?id=559&recordings=1#rec' name='rec'> Click to reload with recordings</a></noscript></h4></div>
+		  <div id='recordings' style='width:100%; font-size:15px'> 
+		  <script language='javascript' type='text/javascript'>	
+			show('loadrecordings');
+		</script>
+		  </div></td></tr></table>
+
+<center><a href='copyright_report.php?id=559' style='font-size:12px'>Report copyright infringement/submit DMCA request</a></center>
+
+</div>
+</div>
+<div id="footer">
+    <div align="center"> 
+      <ul>
+      	<li><a href="faq.php">FAQ</a>&nbsp;</li>
+        <li><a href="contact2.php">Contact Us</a>&nbsp;</li>
+        <li><a href="copyright.php">Copyright Policy</a></li>
+        <li><a href="copyright_report.php#dmca">DMCA Policy and Agent Info</a></li>
+         <li><a href="links.php">Links and Partners</a></li>
+         <li><a href="http://acum.org.il"><img src="acum.png" height="20" style="vertical-align:bottom"/> השירות פועל ברישיון אקו"ם</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+</html>

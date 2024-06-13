@@ -1,0 +1,298 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta http-equiv="content-type" content="text-html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="style2.css">
+
+<title> View Song:  Haftarah Blessing, After בִרְכוֹת הַהַפְטָרָה, אחרי</title>
+
+<meta property="og:title" content="Haftarah Blessing, After בִרְכוֹת הַהַפְטָרָה, אחרי" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" >
+<meta property="og:type" content="article" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:url" content="http://zemirotdatabase.org/view_song.php?id=535" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:image" content="http://zemirotdatabase.org/logosquare.jpg" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:site_name" content="Zemirot Database" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="fb:admins" content="1665840143,1341720084" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="swfobject/swfobject.js"></script>
+<script language="javascript" type="text/javascript">
+
+
+	function hide(x) {
+			document.getElementById(x).style.display='none';}
+	
+	function show(x) {
+			document.getElementById(x).style.display='';}
+
+	function hiderecordings() {
+		document.getElementById('recordings').innerHTML='';
+		show('showrectitle');
+	}
+	
+	function Inint_AJAX() {
+	//ajax call
+		try { return new ActiveXObject("Msxml2.XMLHTTP");  } catch(e) {} //IE
+		try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch(e) {} //IE
+		try { return new XMLHttpRequest();          } catch(e) {} //Native Javascript
+		alert("XMLHttpRequest not supported");
+		return null;
+	}
+	
+	function setCookie(c_name,value,exdays)
+	{
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	}
+	
+	function getCookie(c_name)
+	{
+	  var i,x,y,ARRcookies=document.cookie.split(";");
+	  for (i=0;i<ARRcookies.length;i++)
+	  {
+		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x=x.replace(/^\s+|\s+$/g,"");
+		
+		if (x==c_name)
+		{
+		  return unescape(y);
+		}
+	  }
+	}
+	
+	var flash_support;
+	var zdflash = getCookie("zdflash");
+	
+	if (zdflash != null) {
+	  if (zdflash == 2)
+		  flash_support = 2;
+	  else 
+		  flash_support = 1;
+	}
+	
+	else {
+		if(swfobject.hasFlashPlayerVersion("1")) {
+			setCookie("zdflash",1,500);
+			flash_support = 1;
+			}
+		else {
+			setCookie("zdflash",2,500);
+			flash_support = 2;
+		}
+	}
+		
+	function increaselike(recording_id) {
+		var req = Inint_AJAX();
+
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('ratingnumber_'+recording_id).innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "increase_like.php?recording_id="+recording_id;
+		
+		req.open("GET", url); //make connection
+
+	
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	function toggle_flash (song_id, recording_csv, flash_support_local) {
+	
+		setCookie("zdflash",flash_support_local,500);
+		flash_support = flash_support_local;
+		displayrecordings(song_id, recording_csv);
+			
+	}
+	
+	function displayrecordings(song_id, recording_csv) {
+		
+		
+		document.getElementById('recordings').innerHTML="<img src='ajax-loader.gif'>";
+		var req = Inint_AJAX();
+		hide('showrectitle');
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('recordings').innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "display_recordings.php?song_id="+song_id+"&recording_csv="+recording_csv+"&flash_support="+flash_support;
+		
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	var played = new Array(); 
+
+	function hitcounter(recording_id) {
+	
+	 if(played.indexOf(recording_id) == -1 ){
+		played.push(recording_id);
+				
+		var req = Inint_AJAX();
+		
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+		  }
+		}
+		}
+		
+		url = "recording_counter.php?recording_id="+recording_id+"&song_id=535";
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	 }
+	}
+	
+	
+</script>
+
+</head>
+<body>
+
+<div id="wrapper"
+style = 'min-width:255px' >
+ 
+  <div id="header"><img src="logo.gif" width="255" height="78" /></div>
+  <div id="navbar">
+    <ul>
+    
+      <li><a href="index.php">Home</a></li>
+      <li><a href="song_index.php">Song Index</a></li>
+       <li><a href="search.php">Search</a></li>
+      <li><a href="add_song.php">Add a Song</a></li>
+      <li><a href="members.php">Members</a></li>
+     
+      <li><a href="log_in.php?next=view_song.php&id=535">Log In</a></li>
+      <li><a href="add_user.php">Create Account</a></li>
+      
+          <li><a href="socialmedia.php">Social Media</a></li>
+     
+    </ul>
+    
+  </div>
+
+
+
+	
+
+		<table style='width:100%'><tr>
+	<td style='white-space:nowrap; padding-left:5px;'>
+		<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fzemirotdatabase.org%2Fview_song.php%3Fid%3D535&amp;send=false&amp;layout=button_count&amp;width=10&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+		<g:plusone size="medium"></g:plusone>
+	</td>
+	<td	style='width:80%'>
+	</td>
+	<td style='padding-right:5px;'>
+		<script type="text/javascript">
+function showResult(str)
+{
+if (str.length < 3)
+  { 
+  document.getElementById("livesearch").innerHTML="";
+  document.getElementById("livesearch").style.border="0px";
+  document.getElementById("livesearch").style.display="none";
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
+    if(xmlhttp.responseText != ""){
+    	document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+    	document.getElementById("livesearch").style.display="";
+    }
+    }
+  }
+xmlhttp.open("GET","livesearch.php?title="+str,true);
+xmlhttp.send();
+}
+</script>
+
+
+
+
+<form action="simple_search.php" method="get" style="display:inline; margin:0; padding:0;">
+	<input type="search" autocomplete="off" name="str" id="strt" value="" placeholder="Search titles" onFocus="this.value=''" onkeyup="showResult(this.value)" style="display:inline; width:88px; padding:0px; text-align:center;"/>
+</form>
+
+	<br><div align='right' id="livesearch" style="width:120px;display:none;position:absolute;text-align:left;right:6.8%;"></div>	
+	</td>
+	</table>
+	
+		<script language="javascript" type="text/javascript">
+ 		var strt = document.getElementById('strt');
+ 		if (!('placeholder' in strt)) {
+ 			strt.value = "Search!"; 
+ 		}
+ 	</script>
+	
+	
+<div id="content">
+
+	
+
+
+
+<center><div>
+<table><tr><td style='text-align:center'>
+<h1 style='display:inline'>Haftarah Blessing, After</h1>&nbsp;&nbsp;<h5>בִרְכוֹת הַהַפְטָרָה, אחרי</h5></td></tr>
+<tr><td style='text-align:center'><h4>
+<a href='edit_song.php?id=535'>Edit Song</a> &#8226; <a href='discussion.php?id=535'>Discussion</a> &#8226; 
+<a href='song_history.php?id=535'>History</a> &#8226; <a href='print.php?song_id=535' target='_blank'>Print</a></h4>
+
+</td></tr></table></div></center>
+<div style='margin-left:auto; margin-right:auto; text-align:left; width:90%; max-width:650px;' >
+<table width='100%' class='centered'><tr><td valign='top'><div id='transliteration' style=' font-size:15px; word-wrap:break-word;'>P1: Baruch atah, Adonai Eloheinu, Melech<br>haolam, tzur kol haolamim, tzaddik<br>b’chol hadorot, HaEl hane-eman,<br>haomeir v’oseh, ham’dabeir um’kayeim,<br>shekol d’varav emet vatzedek.<br><br>P2:Ne'eman atah hu Adonai eloheinu vene'emanim devareicha, vedavar ehad middevareicha achor lo yashuv reikam, ki el melech ne'eman verachaman atah. Baruch atah Adonai ha'el hanne'eman bechol devarav:<br><br>P3: Rachem al tziyyon ki hi beit chayyeinu vela'aluvat nefesh toshia' bimherah beyameinu. Baruch atah Adonai mesammeach tziyyon bevaneiha:<br><br>P4: Sammechenu Adonai eloheinu be'eliyahu hannavi avdach, uvemalchut beit david meshichach, bimherah yavo vegel libbenu, al kis'o lo yeshev zar velo yinchalu od acherim et kevodo, ki veshem kadeshcha nishba'ta lo shello yichbeh nero le'olam va'ed. Baruch atah Adonai magen David.<br><br>P5: Al haTorah, v’al haavodah, v’al<br>han’vi-im, v’al yom HaShabbat hazeh, shenatata lanu Adonai Eloheinu, lik’dushah v’lim’nuchah, l’chavod ul’tifaret.<br><br>P6: Al hakol Adonai Eloheinu, anachnu modim lach, um’var’chim otach, yitbarach shimcha b’fi kol chai tamid l’olam va-ed. Baruch atah, Adonai, m’kadeish HaShabbat.</div></td><td style='width:50%; padding-left:8px;' valign='top'><div id='hebrew' style='width:100%; direction:rtl; text-align:right;' class='font'>בָּרוּךְ אַתָּה, יְיָ אֱלֹהֵֽינוּ, מֶֽלֶךְ<br>הָעוֹלָם, צוּר כָּל הָעוֹלָמִים, צַדִּיק<br>בְּכָל הַדּוֹרוֹת, הָאֵל הַנֶּאֱמָן,<br>הָאוֹמֵר וְעֹשֶׂה, הַמְדַבֵּר וּמְקַיֵּם,<br>שֶׁכָּל דְּבָרָיו אֶמֶת וָצֶֽדֶק.<br><br>נֶאֱמָן אַתָּה הוּא יְהֹוָה אֱלֹהֵינוּ וְנֶאֱמָנִים דְּבָרֶיךָ, וְדָבָר אֶחָד מִדְּבָרֶיךָ אָחוֹר לֹא יָשׁוּב רֵיקָם, כִּי אֵל מֶלֶךְ נֶאֱמָן וְרַחֲמָן אָתָּה. בָּרוּךְ אַתָּה יְהֹוָה הָאֵל הַנֶּאֱמָן בְּכָל דְּבָרָיו:<br><br>רַחֵם עַל צִיּוֹן כִּי הִיא בֵּית חַיֵּינוּ וְלַעֲלוּבַת נֶפֶשׁ תּוֹשִׁיעַ בִּמְהֵרָה בְּיָמֵינוּ. בָּרוּךְ אַתָּה יְהֹוָה מְשַׂמֵּחַ צִיּוֹן בְּבָנֶיהָ:<br><br>שַׂמְּחֵנוּ יְהֹוָה אֱלֹהֵינוּ בְּאֵלִיָהוּ הַנָּבִיא עַבְדָּךְ, וּבְמַלְכוּת בֵּית דָּוִד מְשִׁיחָךְ, בִּמְהֵרָה יָבֹא וְיגֵל לִבֵּנוּ, עַל כִּסְאוֹ לֹא יֵשֶׁב זָר וְלֹא יִנְחֲלוּ עוֹד אֲחֵרִים אֶת כְּבוֹדוֹ, כִּי בְשֵׁם קָדְשׁךָ נִשְׁבַּעְתָּ לּוֹ שֶׁלֹּא יִכְבֶּה נֵרוֹ לְעוֹלָם וָעֶד. בָּרוּךְ אַתָּה יְהֹוָה מָגֵן דָּוִד.<br><br><br>עַל הַתּוֹרָה, וְעַל הָעֲבוֹדָה, וְעַל הַנְּבִיאִים, וְעַל יוֹם הַשַּׁבָּת הַזֶּה שֶׁנָּתַתָּ לָּנוּ יְהֹוָה אֱלֹהֵינוּ לִקְדֻשָּׁה וְלִמְנוּחָה לְכָבוֹד וּלְתִפְאָרֶת.<br><br><br>עַל הַכֹּל יְיָ אֱלֹהֵֽינוּ, אֲנַֽחְנוּ מוֹדִים<br>לָךְ, וּמְבָרְכִים אוֹתָךְ, יִתְבָּרַךְ שִׁמְךָ<br>בְּפִי כָּל חַי תָּמִיד לְעוֹלָם וָעֶד.<br>בָּרוּךְ אַתָּה יְיָ, מְקַדֵּשׁ הַשַּׁבָּת.</div></td></tr><tr><td colspan='2'><br><h4 class='view'>Translation:</h4><div id='translation' style='width:100%; font-size:15px; word-wrap:break-word;'>Blessed art thou, O Lord our God, King of the universe,&#8203; Rock of all worlds, righteous&#8203;&#8203; through all generatio&#8203;ns, O faithful God, who sayest and doest, who speakest and fulfilles&#8203;t, all whose words are truth and righteous&#8203;&#8203;ness. <br><br>Faith&#8203;ful art thou, O Lord our God, and faithful are thy words, and not one of thy words shall return void, for thou art a faithful and merciful God and King. Blessed art thou, O Lord, God, who art faithful in all thy words.<br><br>Have mercy upon Zion, for it is the home of our life, and save her that is grieved in spirit speedily,&#8203; even in our days. Blessed art thou, O Lord, who makest Zion joyful through her children.&#8203;<br><br>Gladd&#8203;en us, O Lord our God, with Elijah the prophet, thy servant, and with the kingdom of the house of David, thine anointed.&#8203; Soon may he come and rejoice our hearts. Suffer not a stranger to sit upon his throne, nor let others any longer inherit his glory; for by thy holy name thou didst swear unto him, that his right should not be quenched for ever. Blessed art thou, O Lord, the Shield of David.<br><br>For the Law, for the divine service, for the prophets,&#8203; and for this Sabbath day, which thou, O Lord our God, hast given us for holiness and for rest, for honor and for glory.<br><br>For all these we thank and bless thee, O Lord our God, blessed be thy name by the mouth of every living being continual&#8203;ly and for ever. Blessed art thou, O Lord, who sanctifie&#8203;st the Sabbath.<br><br>Trans&#8203;​lation&#8203; from The Standard Prayer book by Simeon Singer (1915) (public domain)<br></div></td></tr></td></tr></table>
+
+<center><a href='copyright_report.php?id=535' style='font-size:12px'>Report copyright infringement/submit DMCA request</a></center>
+
+</div>
+</div>
+<div id="footer">
+    <div align="center"> 
+      <ul>
+      	<li><a href="faq.php">FAQ</a>&nbsp;</li>
+        <li><a href="contact2.php">Contact Us</a>&nbsp;</li>
+        <li><a href="copyright.php">Copyright Policy</a></li>
+        <li><a href="copyright_report.php#dmca">DMCA Policy and Agent Info</a></li>
+         <li><a href="links.php">Links and Partners</a></li>
+         <li><a href="http://acum.org.il"><img src="acum.png" height="20" style="vertical-align:bottom"/> השירות פועל ברישיון אקו"ם</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+</html>

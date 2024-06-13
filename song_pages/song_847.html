@@ -1,0 +1,299 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta http-equiv="content-type" content="text-html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="style2.css">
+
+<title> View Song:  Kol Beru'ei כל ברואי</title>
+
+<meta property="og:title" content="Kol Beru'ei כל ברואי" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" >
+<meta property="og:type" content="article" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:url" content="http://zemirotdatabase.org/view_song.php?id=847" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:image" content="http://zemirotdatabase.org/logosquare.jpg" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:site_name" content="Zemirot Database" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="fb:admins" content="1665840143,1341720084" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="swfobject/swfobject.js"></script>
+<script language="javascript" type="text/javascript">
+
+
+	function hide(x) {
+			document.getElementById(x).style.display='none';}
+	
+	function show(x) {
+			document.getElementById(x).style.display='';}
+
+	function hiderecordings() {
+		document.getElementById('recordings').innerHTML='';
+		show('showrectitle');
+	}
+	
+	function Inint_AJAX() {
+	//ajax call
+		try { return new ActiveXObject("Msxml2.XMLHTTP");  } catch(e) {} //IE
+		try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch(e) {} //IE
+		try { return new XMLHttpRequest();          } catch(e) {} //Native Javascript
+		alert("XMLHttpRequest not supported");
+		return null;
+	}
+	
+	function setCookie(c_name,value,exdays)
+	{
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	}
+	
+	function getCookie(c_name)
+	{
+	  var i,x,y,ARRcookies=document.cookie.split(";");
+	  for (i=0;i<ARRcookies.length;i++)
+	  {
+		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x=x.replace(/^\s+|\s+$/g,"");
+		
+		if (x==c_name)
+		{
+		  return unescape(y);
+		}
+	  }
+	}
+	
+	var flash_support;
+	var zdflash = getCookie("zdflash");
+	
+	if (zdflash != null) {
+	  if (zdflash == 2)
+		  flash_support = 2;
+	  else 
+		  flash_support = 1;
+	}
+	
+	else {
+		if(swfobject.hasFlashPlayerVersion("1")) {
+			setCookie("zdflash",1,500);
+			flash_support = 1;
+			}
+		else {
+			setCookie("zdflash",2,500);
+			flash_support = 2;
+		}
+	}
+		
+	function increaselike(recording_id) {
+		var req = Inint_AJAX();
+
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('ratingnumber_'+recording_id).innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "increase_like.php?recording_id="+recording_id;
+		
+		req.open("GET", url); //make connection
+
+	
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	function toggle_flash (song_id, recording_csv, flash_support_local) {
+	
+		setCookie("zdflash",flash_support_local,500);
+		flash_support = flash_support_local;
+		displayrecordings(song_id, recording_csv);
+			
+	}
+	
+	function displayrecordings(song_id, recording_csv) {
+		
+		
+		document.getElementById('recordings').innerHTML="<img src='ajax-loader.gif'>";
+		var req = Inint_AJAX();
+		hide('showrectitle');
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('recordings').innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "display_recordings.php?song_id="+song_id+"&recording_csv="+recording_csv+"&flash_support="+flash_support;
+		
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	var played = new Array(); 
+
+	function hitcounter(recording_id) {
+	
+	 if(played.indexOf(recording_id) == -1 ){
+		played.push(recording_id);
+				
+		var req = Inint_AJAX();
+		
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+		  }
+		}
+		}
+		
+		url = "recording_counter.php?recording_id="+recording_id+"&song_id=847";
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	 }
+	}
+	
+	
+</script>
+
+</head>
+<body>
+
+<div id="wrapper"
+style = 'min-width:255px' >
+ 
+  <div id="header"><img src="logo.gif" width="255" height="78" /></div>
+  <div id="navbar">
+    <ul>
+    
+      <li><a href="index.php">Home</a></li>
+      <li><a href="song_index.php">Song Index</a></li>
+       <li><a href="search.php">Search</a></li>
+      <li><a href="add_song.php">Add a Song</a></li>
+      <li><a href="members.php">Members</a></li>
+     
+      <li><a href="log_in.php?next=view_song.php&id=847">Log In</a></li>
+      <li><a href="add_user.php">Create Account</a></li>
+      
+          <li><a href="socialmedia.php">Social Media</a></li>
+     
+    </ul>
+    
+  </div>
+
+
+
+	
+
+		<table style='width:100%'><tr>
+	<td style='white-space:nowrap; padding-left:5px;'>
+		<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fzemirotdatabase.org%2Fview_song.php%3Fid%3D847&amp;send=false&amp;layout=button_count&amp;width=10&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+		<g:plusone size="medium"></g:plusone>
+	</td>
+	<td	style='width:80%'>
+	</td>
+	<td style='padding-right:5px;'>
+		<script type="text/javascript">
+function showResult(str)
+{
+if (str.length < 3)
+  { 
+  document.getElementById("livesearch").innerHTML="";
+  document.getElementById("livesearch").style.border="0px";
+  document.getElementById("livesearch").style.display="none";
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
+    if(xmlhttp.responseText != ""){
+    	document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+    	document.getElementById("livesearch").style.display="";
+    }
+    }
+  }
+xmlhttp.open("GET","livesearch.php?title="+str,true);
+xmlhttp.send();
+}
+</script>
+
+
+
+
+<form action="simple_search.php" method="get" style="display:inline; margin:0; padding:0;">
+	<input type="search" autocomplete="off" name="str" id="strt" value="" placeholder="Search titles" onFocus="this.value=''" onkeyup="showResult(this.value)" style="display:inline; width:88px; padding:0px; text-align:center;"/>
+</form>
+
+	<br><div align='right' id="livesearch" style="width:120px;display:none;position:absolute;text-align:left;right:6.8%;"></div>	
+	</td>
+	</table>
+	
+		<script language="javascript" type="text/javascript">
+ 		var strt = document.getElementById('strt');
+ 		if (!('placeholder' in strt)) {
+ 			strt.value = "Search!"; 
+ 		}
+ 	</script>
+	
+	
+<div id="content">
+
+	
+
+
+
+<center><div>
+<table><tr><td style='text-align:center'>
+<h1 style='display:inline'>Kol Beru'ei</h1>&nbsp;&nbsp;<h5>כל ברואי</h5></td></tr>
+<tr><td style='text-align:center'><h4>
+<a href='edit_song.php?id=847'>Edit Song</a> &#8226; <a href='discussion.php?id=847'>Discussion</a> &#8226; 
+<a href='song_history.php?id=847'>History</a> &#8226; <a href='print.php?song_id=847' target='_blank'>Print</a></h4>
+
+</td></tr></table></div></center>
+<div style='margin-left:auto; margin-right:auto; text-align:left; width:90%; max-width:650px;' >
+<table width='100%' class='centered'><tr><td valign='top'><div id='transliteration' style=' font-size:15px; word-wrap:break-word;'>Kol-beru'ei ma'lah umattah.<br>Ye'idun yaggidun kullam ke'echad.<br>Hashem echad ushemo echad.<br><br>Sheloshim ushetayim netivot shevilach.<br>Lechol-mevin sodam yesapperu gadelach.<br>Mehem yakkirun ki hakkol shellach.<br>Ve'attah ha'el hammelech hammeyuchod.<br><br>Levavot bechashevam olam banui.<br>Yimtze'u chol-yesh biltecha shanui.<br>Bemispar bemishkal hakkol manui.<br>Kullam nittenu mero'eh echad.<br><br>Merosh ve'ad sof yesh lecha simman.<br>Tzafon vayam vekedem veteiman.<br>Shachak vetevel lecha ed ne'emon.<br>Mizzeh echad umizzeh echad.<br><br>Hakkol mimmecha nizbad zavod.<br>Attah ta'amod vehem yovedu avod.<br>Lachen kol-yetzur lecha yitten kavod.<br>Ki merosh ve'ad-sof halo av echad.<br><br>Meromam al kol berachah utehillah. <br>Sibbat kol sibbah ve'illat kol illah. <br>Ein lo reshit velo acharit velo tichlah. <br>Shema yisra'el hashem eloheinu hashem echad.<br><br>Shaddai shochen bishmei aliyah. <br>Asher lo hayam veyabbashah vetziyah. <br>Yotzer harim uvorei kol beriyah. <br>Borei shamayim va'aretz veya'amdu ke'echad.<br><br>Ha'el habborei shechakim ve'amero. <br>Gibborei choach osei devaro. <br>Omer lacheres velo yahel oro. <br>Eemmo oz hamshel vafachad.</div></td><td style='width:50%; padding-left:8px;' valign='top'><div id='hebrew' style='width:100%; direction:rtl; text-align:right;' class='font'>כָּל־בְּרוּאֵי מַעְלָה וּמַטָּה<br>יְעִידוּן יַגִּידוּן כֻּלָּם כְּאֶחָד<br>ה ׳ אֶחָד וּשְׁמוֹ אֶחָד<br><br>שְׁלוֹשִׁים וּשְׁתַּיִם נְתִיבוֹת שְׁבִילָךְ<br>לְכָל־מֵבִין סוֹדָם יְסַפְּרוּ גָדְלָךְ<br>מֵהֶם יַכִּירוּן כִּי הַכֹּל שֶׁלָּךְ<br>וְאַתָּה הָאֵל הַמֶּלֶךְ הַֽמְּיֻחָד<br><br>לְבָבוֹת בְּחָשְׁבָם עוֹלָם בָּנוּי<br>יִמְצְאוּ כָל־יֵשׁ בִּלְתְּךָ שָׁנוּי<br>בְּמִסְפָּר בְּמִשְׁקָל הַכֹּל מָנוּי<br>כֻּלָּם נִתְּנוּ מֵרוֹעֶה אֶחָד<br><br>מֵרֹאשׁ וְעַד סוֹף יֵשׁ לְךָ סִמָּן<br>צָפוֹן וָיָם וְקֶֽדֶם וְתֵימָן<br>שַֽׁחַק וְתֵֽבֵל לְךָ עֵד נֶֽאֱמָן<br>מִזֶּה אֶחָד וּמִזֶּה אֶחָד<br><br>הַכֹּל מִמְּךָ נִזְבַּד זָבוֹד<br>אַתָּה תַֽעֲמֹד וְהֵם יֹאבְדוּ אָבוֹד<br>לָכֵן כָּל־יְצוּר לְךָ יִתֵּן כָּבוֹד<br>כִּי מֵרֹאשׁ וְעַד־סוֹף הֲלֹא אָב אֶחָד׃<br><br>מְרוֹמָם עַל כָּל בְּרָכָה וּתְהִלָּה. סִבַּת כָּל סִבָּה וְעִלַּת כָּל עִלָּה. אֵין לוֹ רֵאשִׁית וְלֹא אַחֲרִית וְלֹא תִכְלָה. שְׁמַע יִשְׂרָאֵל יְהֹוָה אֱלֹהֵינוּ יְהֹוָה אֶחָד:<br><br>שַׁדַּי שׁוֹכֵן בִּשְׁמֵי עֲלִיָּה. אֲשֶׁר לוֹ הַיָּם וְיַבָּשָׁה וְצִיָּה. יוֹצֵר הָרִים וּבוֹרֵא כָּל בְּרִיָּה. בּוֹרֵא שָׁמַיִם וָאָרֶץ וְיַעַמְדוּ כְּאֶחָד:<br><br>הָאֵל הַבּוֹרֵא שְׁחָקִים בְאָמְרוֹ. גִּבּוֹרֵי כֹחַ עוֹשֵׂי דְבָרוֹ. אוֹמֵר לַחֶרֶס וְלֹא יָהֵל אוֹרוֹ. עִמּוֹ עוֹז הַמְשֵׁל וָפַחַד</div></td></tr><tr><td colspan='2'><br><h4 class='view'>Translation:</h4><div id='translation' style='width:100%; font-size:15px; word-wrap:break-word;'>All creatures&#8203;&#8203;&#8203;, whether in heavenly inclines or earthly confines<br>Gathe&#8203;r together to witness  and proclaim:&#8203;<br> "The Lord is one and one is His Name" <br><br>A human is a labyrinth&#8203; of 32 diversion&#8203;s<br>To contempla&#8203;te Your mystery is to make all  these features striking<br>But the human is alas no more than a version <br>You are El, the unique King. <br><br>Heart&#8203;s turn inward and thereby reflect upon <br>creat&#8203;ion;<br>It is only in the world, not You, <br>that there is variation&#8203;<br>By count, and mass all is finite and measurabl&#8203;e in animation&#8203;<br>But by one Shepherd is all else a derivatio&#8203;n<br><br>Your signs push beyond cognizabl&#8203;e limits, <br>Begin&#8203;ning becomes an End/North&#8203; is South, East and West press.<br>Heave&#8203;n and Earth are faithful testament&#8203;<br>Each entity in its unique way will profess <br><br>The totality is yours, all we are is You in extension&#8203;<br>You exist eternally&#8203;, while exasperat&#8203;ed  creatures&#8203;&#8203;&#8203; recess.<br>There&#8203;fore all creatures&#8203;&#8203;&#8203; bring Your splendor honorable&#8203; mention<br>From alpha to omega, is there not one <br>Paren&#8203;t to strive to access?<br><br>Exalt&#8203;ed above all blessing and glory<br>The cause of every cause and the catalyst of every catalyst<br>He has no beginning&#8203; and no end and no conclusio&#8203;n<br>Hear O Israel, The Lord is one and one is His Name.<br><br>Demon&#8203;s dwell in the heavens above<br>To Him belongs the sea and the dry land and the wildernes&#8203;s<br>Creat&#8203;&#8203;or of mountains&#8203; and creator of all creation<br>Creat&#8203;&#8203;or of heaven and earth, will stand as one.<br><br>The God who creates Heavens with his word.<br>The heroes of power do his bidding.<br>He commands the potter and his light will not shine.<br>With Him the strength,&#8203; authority&#8203;, and fear.<br><br>User-&#8203;contribut&#8203;ed translati&#8203;on<br></div></td></tr><tr><td colspan='2'><br><h4 class='view'>Information:</h4><div id='information' style='width:100%; font-size:15px; word-wrap:break-word;'>Attributed to Rabbi Shlomo ibn Gabirol, an 11th century Andalusian philosopher.<br></div></td></tr><tr><td  colspan='2'><br><h4 class='view'>Categories:</h4>
+<div id='categories' style='width:100%; font-size:15px'><a href='view_category.php?id=1'>Erev Shabbat</a><br><a href='view_category.php?id=18'>Sefardi</a><br><br></div></td></tr></table>
+
+<center><a href='copyright_report.php?id=847' style='font-size:12px'>Report copyright infringement/submit DMCA request</a></center>
+
+</div>
+</div>
+<div id="footer">
+    <div align="center"> 
+      <ul>
+      	<li><a href="faq.php">FAQ</a>&nbsp;</li>
+        <li><a href="contact2.php">Contact Us</a>&nbsp;</li>
+        <li><a href="copyright.php">Copyright Policy</a></li>
+        <li><a href="copyright_report.php#dmca">DMCA Policy and Agent Info</a></li>
+         <li><a href="links.php">Links and Partners</a></li>
+         <li><a href="http://acum.org.il"><img src="acum.png" height="20" style="vertical-align:bottom"/> השירות פועל ברישיון אקו"ם</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+</html>

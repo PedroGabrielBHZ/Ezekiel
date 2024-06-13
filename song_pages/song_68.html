@@ -1,0 +1,305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta http-equiv="content-type" content="text-html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="style2.css">
+
+<title> View Song:  L'cha Dodi לְכָה דוֹדִי</title>
+
+<meta property="og:title" content="L'cha Dodi לְכָה דוֹדִי" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" >
+<meta property="og:type" content="article" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:url" content="http://zemirotdatabase.org/view_song.php?id=68" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:image" content="http://zemirotdatabase.org/logosquare.jpg" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:site_name" content="Zemirot Database" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="fb:admins" content="1665840143,1341720084" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="swfobject/swfobject.js"></script>
+<script language="javascript" type="text/javascript">
+
+
+	function hide(x) {
+			document.getElementById(x).style.display='none';}
+	
+	function show(x) {
+			document.getElementById(x).style.display='';}
+
+	function hiderecordings() {
+		document.getElementById('recordings').innerHTML='';
+		show('showrectitle');
+	}
+	
+	function Inint_AJAX() {
+	//ajax call
+		try { return new ActiveXObject("Msxml2.XMLHTTP");  } catch(e) {} //IE
+		try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch(e) {} //IE
+		try { return new XMLHttpRequest();          } catch(e) {} //Native Javascript
+		alert("XMLHttpRequest not supported");
+		return null;
+	}
+	
+	function setCookie(c_name,value,exdays)
+	{
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	}
+	
+	function getCookie(c_name)
+	{
+	  var i,x,y,ARRcookies=document.cookie.split(";");
+	  for (i=0;i<ARRcookies.length;i++)
+	  {
+		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x=x.replace(/^\s+|\s+$/g,"");
+		
+		if (x==c_name)
+		{
+		  return unescape(y);
+		}
+	  }
+	}
+	
+	var flash_support;
+	var zdflash = getCookie("zdflash");
+	
+	if (zdflash != null) {
+	  if (zdflash == 2)
+		  flash_support = 2;
+	  else 
+		  flash_support = 1;
+	}
+	
+	else {
+		if(swfobject.hasFlashPlayerVersion("1")) {
+			setCookie("zdflash",1,500);
+			flash_support = 1;
+			}
+		else {
+			setCookie("zdflash",2,500);
+			flash_support = 2;
+		}
+	}
+		
+	function increaselike(recording_id) {
+		var req = Inint_AJAX();
+
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('ratingnumber_'+recording_id).innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "increase_like.php?recording_id="+recording_id;
+		
+		req.open("GET", url); //make connection
+
+	
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	function toggle_flash (song_id, recording_csv, flash_support_local) {
+	
+		setCookie("zdflash",flash_support_local,500);
+		flash_support = flash_support_local;
+		displayrecordings(song_id, recording_csv);
+			
+	}
+	
+	function displayrecordings(song_id, recording_csv) {
+		
+		
+		document.getElementById('recordings').innerHTML="<img src='ajax-loader.gif'>";
+		var req = Inint_AJAX();
+		hide('showrectitle');
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('recordings').innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "display_recordings.php?song_id="+song_id+"&recording_csv="+recording_csv+"&flash_support="+flash_support;
+		
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	var played = new Array(); 
+
+	function hitcounter(recording_id) {
+	
+	 if(played.indexOf(recording_id) == -1 ){
+		played.push(recording_id);
+				
+		var req = Inint_AJAX();
+		
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+		  }
+		}
+		}
+		
+		url = "recording_counter.php?recording_id="+recording_id+"&song_id=68";
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	 }
+	}
+	
+	
+</script>
+
+</head>
+<body>
+
+<div id="wrapper"
+style = 'min-width:255px' >
+ 
+  <div id="header"><img src="logo.gif" width="255" height="78" /></div>
+  <div id="navbar">
+    <ul>
+    
+      <li><a href="index.php">Home</a></li>
+      <li><a href="song_index.php">Song Index</a></li>
+       <li><a href="search.php">Search</a></li>
+      <li><a href="add_song.php">Add a Song</a></li>
+      <li><a href="members.php">Members</a></li>
+     
+      <li><a href="log_in.php?next=view_song.php&id=68">Log In</a></li>
+      <li><a href="add_user.php">Create Account</a></li>
+      
+          <li><a href="socialmedia.php">Social Media</a></li>
+     
+    </ul>
+    
+  </div>
+
+
+
+	
+
+		<table style='width:100%'><tr>
+	<td style='white-space:nowrap; padding-left:5px;'>
+		<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fzemirotdatabase.org%2Fview_song.php%3Fid%3D68&amp;send=false&amp;layout=button_count&amp;width=10&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+		<g:plusone size="medium"></g:plusone>
+	</td>
+	<td	style='width:80%'>
+	</td>
+	<td style='padding-right:5px;'>
+		<script type="text/javascript">
+function showResult(str)
+{
+if (str.length < 3)
+  { 
+  document.getElementById("livesearch").innerHTML="";
+  document.getElementById("livesearch").style.border="0px";
+  document.getElementById("livesearch").style.display="none";
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
+    if(xmlhttp.responseText != ""){
+    	document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+    	document.getElementById("livesearch").style.display="";
+    }
+    }
+  }
+xmlhttp.open("GET","livesearch.php?title="+str,true);
+xmlhttp.send();
+}
+</script>
+
+
+
+
+<form action="simple_search.php" method="get" style="display:inline; margin:0; padding:0;">
+	<input type="search" autocomplete="off" name="str" id="strt" value="" placeholder="Search titles" onFocus="this.value=''" onkeyup="showResult(this.value)" style="display:inline; width:88px; padding:0px; text-align:center;"/>
+</form>
+
+	<br><div align='right' id="livesearch" style="width:120px;display:none;position:absolute;text-align:left;right:6.8%;"></div>	
+	</td>
+	</table>
+	
+		<script language="javascript" type="text/javascript">
+ 		var strt = document.getElementById('strt');
+ 		if (!('placeholder' in strt)) {
+ 			strt.value = "Search!"; 
+ 		}
+ 	</script>
+	
+	
+<div id="content">
+
+	
+
+
+
+<center><div>
+<table><tr><td style='text-align:center'>
+<h1 style='display:inline'>L'cha Dodi</h1>&nbsp;&nbsp;<h5>לְכָה דוֹדִי</h5></td></tr>
+<tr><td style='text-align:center'><h4>
+<a href='edit_song.php?id=68'>Edit Song</a> &#8226; <a href='discussion.php?id=68'>Discussion</a> &#8226; 
+<a href='song_history.php?id=68'>History</a> &#8226; <a href='print.php?song_id=68' target='_blank'>Print</a></h4>
+
+</td></tr></table></div></center>
+<div style='margin-left:auto; margin-right:auto; text-align:left; width:90%; max-width:650px;' >
+<table width='100%' class='centered'><tr><td valign='top'><div id='transliteration' style=' font-size:15px; word-wrap:break-word;'>L'cha dodi likrat kala, p'nei Shabbat n'kab'lah!<br> <br>Shamor v’zachor b’dibur echad,<br>Hishmi’anu el ha’meyuchad.<br>Adonai echad u’shmo echad;<br>L’shem ul’tiferet v’l’tehila.<br><br>Likrat Shabbat l’chu v’nelcha,<br>Ki hi m’kor ha’bracha.<br>Me’rosh mi’kedem n’sucha;<br>Sof ma’aseh b’mach’shava t’chila.<br><br>Mikdash melech, ir m’lucha,<br>Kumi, tze’i mi’toch ha’hafecha.<br>Rav lach shevet b’emek ha’bacha;<br>V’hu yachmol alai’yich chemla.<br><br>Hitna’ari me’afar kumi,<br>Livshi bigdei tifartech ami.<br>Al yad ben Yishai beit haLachmi;<br>Karva el nafshi g’ala.<br><br>Hit’oreri, hit’oreri,<br>Ki va orech, kumi ohri.<br>Uri, uri, shir daberi;<br>K’vod Adonai alai’yich nigla.<br> <br>Lo tevoshi ve'lo tikal'mi<br>mah tishtochachi umah tehemi,<br>bach yechesu ani'ei ami,<br>venivnetah ir al tilah.<br><br>Vehayu lim'shisah shos'ayich,<br>verachaku kol miv'alayich,<br>yasis alaich Elohaich,<br>kimesos chatan al kalah.<br><br>Yamin usmol tif'rotzi,<br>ve'et Adonai ta'aritzi,<br>al yad ish bein partzi,<br>venis'mechah venagilah.<br><br>Bo’ee v’shalom, ateret ba’ala,<br>Gam b'simcha uv’ tzhala.<br>Toch emunei am segula; Bo’ee chala, bo’ee chala.<br><br>L'cha dodi likrat kala, p'nei Shabbat n'kab'lah!</div></td><td style='width:50%; padding-left:8px;' valign='top'><div id='hebrew' style='width:100%; direction:rtl; text-align:right;' class='font'>לְכָה דוֹדִי לִקְרַאת כַּלָּה. פְּנֵי שַׁבָּת נְקַבְּלָה:<br><br>שָׁמוֹר וְזָכוֹר בְּדִבּוּר אֶחָד, הִשְמִיעָֽנוּ אֵל הַמְּיֻחָד.<br>ה' אֶחָד וּשְמוֹ אֶחָד. לְשֵׁם וּלְתִפְאֶֽרֶת וְלִתְהִלָּה: <br><br>לִקְרַאת שַׁבָּת לְכוּ וְנֵלְכָה. כִּי הִיא מְקוֹר הַבְּרָכָה. <br>מֵרֹאשׁ מִקֶּֽדֶם נְסוּכָה. סוֹף מַעֲשֶׂה בְּמַחֲשָׁבָה תְּחִלָּה:<br><br>מִקְדַּשׁ מֶֽלֶךְ עִיר מְלוּכָה. קֽוּמִי צְאִי מִתּוֹךְ הַהֲפֵכָה. <br>רַב לָךְ שֶֽׁבֶת בְּעֵֽמֶק הַבָּכָא. וְהוּא יַחֲמוֹל עָלַֽיִךְ חֶמְלָה:<br><br>הִתְנַעֲרִי מֵעָפָר קוּמִי. לִבְשִׁי בִּגְדֵי תִפְאַרְתֵּךְ עַמִּי: <br>עַל יַד בֶּן יִשַׁי בֵּית הַלַּחְמִי. קָרְבָה אֶל נַפְשִׁי גְאָלָהּ:<br><br>הִתְעוֹרְרִי הִתְעוֹרְרִי. כִּי בָא אוֹרֵךְ<br> קֽֽוּמִי אֽוֹרִי. <br>עֽוּרִי עֽוּרִי שִׁיר דַבֵּֽרִי. כְּבוֹד ה' עָלַֽיִךְ נִגְלָה.<br><br>לא תֵבושי וְלא תִכָּלְמִי. מַה תִּשתּוחֲחִי וּמַה תֶּהֱמִי.<br>בָּךְ יֶחֱסוּ עֲנִיֵּי עַמִּי. וְנִבְנְתָה עִיר עַל תִּלָּהּ.<br><br>וְהָיוּ לִמְשסָּה שאסָיִךְ. וְרָחֲקוּ כָּל מְבַלְּעָיִךְ.<br>יָשיש עָלַיִךְ אֱלהָיִךְ. כִּמְשוש חָתָן עַל כַּלָּה.<br><br>יָמִין וּשמאל תִּפְרוצִי. וְאֶת ה' תַּעֲרִיצִי.<br>עַל יַד אִיש בֶּן פַּרְצִי. וְנִשמְחָה וְנָגִילָה.<br><br>לְכָה דודִי לִקְרַאת כַּלָּה. פְּנֵי שבָּת נְקַבְּלָה.<br><br>בּֽוֹאִי בְשָׁלוֹם עֲטֶרֶת בַּעְלָהּ. גַּם בְּשִׂמְחָה וּבְצָהֳלָה. <br>תּוֹךְ אֱמוּנֵי עַם סְגֻּלָּה. בּֽוֹאִי כַלָּה, בּֽוֹאִי כַלָּה:<br><br>לְכָה דוֹדִי לִקְרַאת כַּלָּה. פְּנֵי שַׁבָּת נְקַבְּלָה:</div></td></tr><tr><td colspan='2'><br><h4 class='view'>Translation:</h4><div id='translation' style='width:100%; font-size:15px; word-wrap:break-word;'>Come, my friend, to meet the bride; let us welcome the Sabbath. <br>“Ob&#8203;serve” and “Rememb&#8203;er,” in a single command, the One <br>God announced&#8203; to us. The Lord is One, and his name is One, for <br>fame,&#8203; for glory and for praise. <br><br>Come,&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203; my friend, to meet the bride; let us welcome the Sabbath. <br><br>Come,&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203; let us go to meet the Sabbath, for it is a source of bles- <br>sing.&#8203; From the very beginning&#8203; it was ordained;&#8203; last in creation,&#8203; <br>first&#8203; in God’s plan. <br><br>Come,&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203; my friend, to meet the bride; let us welcome the Sabbath. <br><br>Shrin&#8203;e of the King, royal city, arise! Come forth from thy ruins. <br>Long enough have you dwelt in the vale of tears! He will show <br>you abundant mercy. <br><br>Come,&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203; my friend, to meet the bride; let us welcome the Sabbath. <br><br>Shake&#8203; off your dust, arise! Put on your glorious garments,&#8203; my <br>peopl&#8203;e, and pray: “Be near to my soul, and redeem it through <br>the son of Jesse, the Bethlehem&#8203;ite.” <br><br>Come,&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203; my friend, to meet the bride; let us welcome the Sabbath. <br><br>Besti&#8203;r yourself,&#8203;&#8203; bestir yourself,&#8203;&#8203; for your light has come; arise <br>and shine! Awake, awake, utter a song; the Lord’s glory is revealed <br>upon you. <br><br>Come,&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203; my friend, to meet the bride; let us welcome the Sabbath. <br><br>Be not ashamed nor confounde&#8203;d. Why are you downcast?&#8203; Why <br>do you moan? The afflicted&#8203; of my people will be sheltered&#8203; within <br>you; the city shall be rebuilt on its ancient site. <br><br>Come,&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203; my friend, to meet the bride; let us welcome the Sabbath. <br><br>Those&#8203; who despoiled&#8203; you shall become a spoil, and all who <br>would&#8203; devour you shall be far away. Your God will rejoice over <br>you as a bridegroo&#8203;m rejoices over his bride. <br><br>Come,&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203; my friend, to meet the bride; let us welcome the Sabbath. <br>You shall extend to the right and to the left, and you shall re- <br>vere the Lord. Through the advent of a descendan&#8203;t of Perez we <br>shall&#8203; rejoice and exult. <br><br>Come,&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203; my friend, to meet the bride; let us welcome the Sabbath. <br><br>[Cong&#8203;regation rises and turns toward the door, as if to welcome a guest.]<br>Come in peace, crown of God, come with joy and cheerfuln&#8203;ess; <br>amids&#8203;t the faithful of the chosen people come O bride; come, O bride. <br><br>Come,&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203;&#8203; my friend, to meet the bride; let us welcome the Sabbath.<br><br>Trans&#8203;lation from Hasiddur Hashalem by Dr. Philip Birnbaum<br>This work is in the Public Domain due to the lack of a copyright&#8203;&#8203;&#8203; renewal by the copyright&#8203;&#8203;&#8203; holder provided in the copyright&#8203;&#8203;&#8203; notice (a condition&#8203; required for works published&#8203; in the United States between 1923 and 1963).<br></div></td></tr><tr><td colspan='2'><br><h4 class='view'>Information:</h4><div id='information' style='width:100%; font-size:15px; word-wrap:break-word;'>After each paragraph, we repeat the refrain, "לכה דודי לקראת כלה, פני שבת נקבלה." Lecha Dodi Likrat Kala, P'nei Shabbat N'kabelah.<br><br>By Rabbi Shelomo Halevi Alkabets (16th century)<br><br>The tune composed by Maria Lisznyai and sung by Adam Szanto is used with permission.<br><br>The tune labeled "usy tune" is based on the Bumble Bee Tuna jingle. <a href="https://www.youtube.com/watch?v=5zZK8kZuP1Q">Listen to it here.</a> Permission is given by Bumble Bee Foods.<br><br>Tune labeled "By Craig Taubman" is by <a href="http://craignco.com/v3/wordpress/">Craig Taubman</a>. Posted with permission of the composer. This is the authentic version of the song. The recording labeled "Los Angeles Conservative Version" is also a version of this tune.<br></div></td></tr><tr><td colspan='2'><br><div id='showrectitle'><h4 class='view'>
+		<a href='#rec' name='rec' onclick="displayrecordings('68','337,338,339,372,373,442,502,509,510,511,624,826,837,875,880,936,1065,1119,1228,1234,1312,1333,1352,1359,')"  id='loadrecordings' style='border:none; display:none'>Load recordings (there are 24 recordings)</a><noscript><a href='view_song.php?id=68&recordings=1#rec' name='rec'> Click to reload with recordings</a></noscript></h4></div>
+		  <div id='recordings' style='width:100%; font-size:15px'> 
+		  <script language='javascript' type='text/javascript'>	
+			show('loadrecordings');
+		</script>
+		  </div><tr><td  colspan='2'><br><h4 class='view'>Categories:</h4>
+<div id='categories' style='width:100%; font-size:15px'><a href='view_category.php?id=1'>Erev Shabbat</a><br><a href='view_category.php?id=14'>Liturgy</a><br><br></div></td></tr></table>
+
+<center><a href='copyright_report.php?id=68' style='font-size:12px'>Report copyright infringement/submit DMCA request</a></center>
+
+</div>
+</div>
+<div id="footer">
+    <div align="center"> 
+      <ul>
+      	<li><a href="faq.php">FAQ</a>&nbsp;</li>
+        <li><a href="contact2.php">Contact Us</a>&nbsp;</li>
+        <li><a href="copyright.php">Copyright Policy</a></li>
+        <li><a href="copyright_report.php#dmca">DMCA Policy and Agent Info</a></li>
+         <li><a href="links.php">Links and Partners</a></li>
+         <li><a href="http://acum.org.il"><img src="acum.png" height="20" style="vertical-align:bottom"/> השירות פועל ברישיון אקו"ם</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+</html>

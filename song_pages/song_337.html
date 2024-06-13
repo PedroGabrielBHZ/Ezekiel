@@ -1,0 +1,305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta http-equiv="content-type" content="text-html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="style2.css">
+
+<title> View Song:  Psalm 92: Mizmor Shir L'Yom HaShabbat מִזְמוֹר שִׁיר, לְיוֹם הַשַּׁבָּת</title>
+
+<meta property="og:title" content="Psalm 92: Mizmor Shir L'Yom HaShabbat מִזְמוֹר שִׁיר, לְיוֹם הַשַּׁבָּת" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" >
+<meta property="og:type" content="article" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:url" content="http://zemirotdatabase.org/view_song.php?id=337" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:image" content="http://zemirotdatabase.org/logosquare.jpg" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="og:site_name" content="Zemirot Database" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<meta property="fb:admins" content="1665840143,1341720084" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="swfobject/swfobject.js"></script>
+<script language="javascript" type="text/javascript">
+
+
+	function hide(x) {
+			document.getElementById(x).style.display='none';}
+	
+	function show(x) {
+			document.getElementById(x).style.display='';}
+
+	function hiderecordings() {
+		document.getElementById('recordings').innerHTML='';
+		show('showrectitle');
+	}
+	
+	function Inint_AJAX() {
+	//ajax call
+		try { return new ActiveXObject("Msxml2.XMLHTTP");  } catch(e) {} //IE
+		try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch(e) {} //IE
+		try { return new XMLHttpRequest();          } catch(e) {} //Native Javascript
+		alert("XMLHttpRequest not supported");
+		return null;
+	}
+	
+	function setCookie(c_name,value,exdays)
+	{
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	}
+	
+	function getCookie(c_name)
+	{
+	  var i,x,y,ARRcookies=document.cookie.split(";");
+	  for (i=0;i<ARRcookies.length;i++)
+	  {
+		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x=x.replace(/^\s+|\s+$/g,"");
+		
+		if (x==c_name)
+		{
+		  return unescape(y);
+		}
+	  }
+	}
+	
+	var flash_support;
+	var zdflash = getCookie("zdflash");
+	
+	if (zdflash != null) {
+	  if (zdflash == 2)
+		  flash_support = 2;
+	  else 
+		  flash_support = 1;
+	}
+	
+	else {
+		if(swfobject.hasFlashPlayerVersion("1")) {
+			setCookie("zdflash",1,500);
+			flash_support = 1;
+			}
+		else {
+			setCookie("zdflash",2,500);
+			flash_support = 2;
+		}
+	}
+		
+	function increaselike(recording_id) {
+		var req = Inint_AJAX();
+
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('ratingnumber_'+recording_id).innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "increase_like.php?recording_id="+recording_id;
+		
+		req.open("GET", url); //make connection
+
+	
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	function toggle_flash (song_id, recording_csv, flash_support_local) {
+	
+		setCookie("zdflash",flash_support_local,500);
+		flash_support = flash_support_local;
+		displayrecordings(song_id, recording_csv);
+			
+	}
+	
+	function displayrecordings(song_id, recording_csv) {
+		
+		
+		document.getElementById('recordings').innerHTML="<img src='ajax-loader.gif'>";
+		var req = Inint_AJAX();
+		hide('showrectitle');
+	
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+			   document.getElementById('recordings').innerHTML=req.responseText;
+		  }
+		}
+		}
+		
+		url = "display_recordings.php?song_id="+song_id+"&recording_csv="+recording_csv+"&flash_support="+flash_support;
+		
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	
+	}
+	
+	
+	var played = new Array(); 
+
+	function hitcounter(recording_id) {
+	
+	 if(played.indexOf(recording_id) == -1 ){
+		played.push(recording_id);
+				
+		var req = Inint_AJAX();
+		
+		req.onreadystatechange = function () {
+			if (req.readyState==4) {
+				 if (req.status==200) {
+				 //alert(req.responseText);
+		  }
+		}
+		}
+		
+		url = "recording_counter.php?recording_id="+recording_id+"&song_id=337";
+		req.open("GET", url);
+		
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=iso-8859-1"); // set Header
+		req.send(null); //send value 
+	 }
+	}
+	
+	
+</script>
+
+</head>
+<body>
+
+<div id="wrapper"
+style = 'min-width:255px' >
+ 
+  <div id="header"><img src="logo.gif" width="255" height="78" /></div>
+  <div id="navbar">
+    <ul>
+    
+      <li><a href="index.php">Home</a></li>
+      <li><a href="song_index.php">Song Index</a></li>
+       <li><a href="search.php">Search</a></li>
+      <li><a href="add_song.php">Add a Song</a></li>
+      <li><a href="members.php">Members</a></li>
+     
+      <li><a href="log_in.php?next=view_song.php&id=337">Log In</a></li>
+      <li><a href="add_user.php">Create Account</a></li>
+      
+          <li><a href="socialmedia.php">Social Media</a></li>
+     
+    </ul>
+    
+  </div>
+
+
+
+	
+
+		<table style='width:100%'><tr>
+	<td style='white-space:nowrap; padding-left:5px;'>
+		<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fzemirotdatabase.org%2Fview_song.php%3Fid%3D337&amp;send=false&amp;layout=button_count&amp;width=10&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+		<g:plusone size="medium"></g:plusone>
+	</td>
+	<td	style='width:80%'>
+	</td>
+	<td style='padding-right:5px;'>
+		<script type="text/javascript">
+function showResult(str)
+{
+if (str.length < 3)
+  { 
+  document.getElementById("livesearch").innerHTML="";
+  document.getElementById("livesearch").style.border="0px";
+  document.getElementById("livesearch").style.display="none";
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
+    if(xmlhttp.responseText != ""){
+    	document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+    	document.getElementById("livesearch").style.display="";
+    }
+    }
+  }
+xmlhttp.open("GET","livesearch.php?title="+str,true);
+xmlhttp.send();
+}
+</script>
+
+
+
+
+<form action="simple_search.php" method="get" style="display:inline; margin:0; padding:0;">
+	<input type="search" autocomplete="off" name="str" id="strt" value="" placeholder="Search titles" onFocus="this.value=''" onkeyup="showResult(this.value)" style="display:inline; width:88px; padding:0px; text-align:center;"/>
+</form>
+
+	<br><div align='right' id="livesearch" style="width:120px;display:none;position:absolute;text-align:left;right:6.8%;"></div>	
+	</td>
+	</table>
+	
+		<script language="javascript" type="text/javascript">
+ 		var strt = document.getElementById('strt');
+ 		if (!('placeholder' in strt)) {
+ 			strt.value = "Search!"; 
+ 		}
+ 	</script>
+	
+	
+<div id="content">
+
+	
+
+
+
+<center><div>
+<table><tr><td style='text-align:center'>
+<h1 style='display:inline'>Psalm 92: Mizmor Shir L'Yom HaShabbat</h1>&nbsp;&nbsp;<h5>מִזְמוֹר שִׁיר, לְיוֹם הַשַּׁבָּת</h5></td></tr>
+<tr><td style='text-align:center'><h4>
+<a href='edit_song.php?id=337'>Edit Song</a> &#8226; <a href='discussion.php?id=337'>Discussion</a> &#8226; 
+<a href='song_history.php?id=337'>History</a> &#8226; <a href='print.php?song_id=337' target='_blank'>Print</a></h4>
+
+</td></tr></table></div></center>
+<div style='margin-left:auto; margin-right:auto; text-align:left; width:90%; max-width:650px;' >
+<table width='100%' class='centered'><tr><td valign='top'><div id='transliteration' style=' font-size:15px; word-wrap:break-word;'>Mizmor shir leyom hashabbat. <br>Tov lehodot Ladonai, ulzamer leshimcha elyon. <br>Lehagid baboker chasdecha ve-emunatcha, baleylot. Alei asor va-alei-navel; alei heegayon bekinor. <br>Ki simachtani adonai befoalecha; bema'asei yadecha aranen.<br>Ma-gadlu ma'asecha Adonai, meod, amku machshevotecha. Ish ba'ar lo yeda, uchsil lo yavin et zot. <br>Bifroach reshaim, kemo esev, vayatzitzu, ko-poalei aven.  Lehishamdam adei-ad. <br>Veatah marom -- leolam Adonai. <br>Ki hineh oyvecha, adonai -- ki hineh oyvecha yo veidu.<br>Yitpardu ko poalei aven. <br>Vaterem kirem karni; baloti, beshemen ra'anan. <br>Vatabet eini beshurai.<br>Bakamim alay me'ra'eem -- tishma'eina oznai.<br>Tzdik katamar yifrach; ke-erez balvanon yisgeh. Shetulim beveit adonai; bechatzrot eloheinu yafrichu. <br>Od yenuvun beseiva; desheinim ve'ra'ananim yihiyu.<br>Lehagid, ki-yashar Adonai; <br>tzuri, ve-lo avalatah bo.</div></td><td style='width:50%; padding-left:8px;' valign='top'><div id='hebrew' style='width:100%; direction:rtl; text-align:right;' class='font'>מִזְמוֹר שִׁיר<br>לְיוֹם הַשַּׁבָּת.<br>טוֹב לְהֹדוֹת לַיהוָה<br>וּלְזַמֵּר לְשִׁמְךָ עֶלְיוֹן.<br>לְהַגִּיד בַּבֹּקֶר<br>חַסְדֶּךָ וֶאֱמוּנָתְךָ<br> בַּלֵּילוֹת. עֲלֵי-עָשׂוֹר וַעֲלֵי-<br>נָבֶל עֲלֵי הִגָּיוֹן בְּכִנּוֹר.<br>כִּי שִׂמַּחְתַּנִי יְהוָה בְּפָעֳלֶךָ בְּמַעֲשֵׂי יָדֶיךָ אֲרַנֵּן.<br>מַה-גָּדְלוּ מַעֲשֶׂיךָ יְהוָה מְאֹד עָמְקוּ מַחְשְׁבֹתֶיךָ.<br>אִישׁ-בַּעַר לֹא יֵדָע וּכְסִיל לֹא-יָבִין אֶת-זֹאת.<br>בִּפְרֹחַ רְשָׁעִים כְּמוֹ עֵשֶׂב וַיָּצִיצוּ כָּל-פֹּעֲלֵי אָוֶן. לְהִשָּׁמְדָם עֲדֵי-עַד.<br>וְאַתָּה מָרוֹם לְעֹלָם יְהוָה.<br>כִּי הִנֵּה אֹיְבֶיךָ יְהוָה כִּי-הִנֵּה אֹיְבֶיךָ יֹאבֵדוּ.<br>יִתְפָּרְדוּ כָּל-פֹּעֲלֵי אָוֶן.<br>וַתָּרֶם כִּרְאֵים קַרְנִי בַּלֹּתִי בְּשֶׁמֶן רַעֲנָן.<br>וַתַּבֵּט עֵינִי בְּשׁוּרָי.<br>בַּקָּמִים עָלַי מְרֵעִים תִּשְׁמַעְנָה אָזְנָי.<br>צַדִּיק כַּתָּמָר יִפְרָח כְּאֶרֶז בַּלְּבָנוֹן יִשְׂגֶּה.<br>שְׁתוּלִים בְּבֵית יְהוָה בְּחַצְרוֹת אֱלֹהֵינוּ יַפְרִיחוּ.<br>עוֹד יְנוּבוּן בְּשֵׂיבָה דְּשֵׁנִים וְרַעֲנַנִּים יִהְיוּ.<br>לְהַגִּיד כִּי-יָשָׁר יְהוָה צוּרִי וְלֹא-עַוְלָתָה בּוֹ.</div></td></tr><tr><td colspan='2'><br><h4 class='view'>Translation:</h4><div id='translation' style='width:100%; font-size:15px; word-wrap:break-word;'>1 A Psalm, a Song. For the sabbath day.<br>2 It is a good thing to give thanks unto the LORD, and to sing praises unto Thy name, O Most High;<br>3 To declare Thy lovingkin&#8203;dness in the morning, and Thy faithfuln&#8203;ess in the night seasons,<br>4 With an instrumen&#8203;t of ten strings, and with the psaltery;&#8203; with a solemn sound upon the harp.<br>5 For Thou, LORD, hast made me glad through Thy work; I will exult in the works of Thy hands.<br>6 How great are Thy works, O LORD! Thy thoughts are very deep.<br>7 A brutish man knoweth not, neither doth a fool understan&#8203;d this.<br>8 When the wicked spring up as the grass, and when all the workers of iniquity do flourish;&#8203; it is that they may be destroyed&#8203; for ever.<br>9 But Thou, O LORD, art on high for evermore.&#8203;<br>10 For, lo, Thine enemies, O LORD, for, lo, Thine enemies shall perish: <br>all the workers of iniquity shall be scattered&#8203;.<br>11 But my horn hast Thou exalted like the horn of the wild-ox; I am anointed with rich oil.<br>12 Mine eye also hath gazed on them that lie in wait for me, <br>mine ears have heard my desire of the evil-doer&#8203;s that rise up against me.<br>13 The righteous&#8203; shall flourish like the palm-tree&#8203;; he shall grow like a cedar in Lebanon.<br>14 Planted in the house of the LORD, they shall flourish in the courts of our God.<br>15 They shall still bring forth fruit in old age; they shall be full of sap and richness;&#8203;<br>16 To declare that the LORD is upright, my Rock, in whom there is no unrighteo&#8203;us&#8203;ness.<br><br>Trans&#8203;lation source: Jewish Publicati&#8203;on Society Bible (1917) (public domain)<br></div></td></tr><tr><td colspan='2'><br><h4 class='view'>Information:</h4><div id='information' style='width:100%; font-size:15px; word-wrap:break-word;'>Psalm 92:  Sung as part of Kabbalat Shabbat<br></div></td></tr><tr><td colspan='2'><br><div id='showrectitle'><h4 class='view'>
+		<a href='#rec' name='rec' onclick="displayrecordings('337','850,961,962,963,1059,1325,')"  id='loadrecordings' style='border:none; display:none'>Load recordings (there are 6 recordings)</a><noscript><a href='view_song.php?id=337&recordings=1#rec' name='rec'> Click to reload with recordings</a></noscript></h4></div>
+		  <div id='recordings' style='width:100%; font-size:15px'> 
+		  <script language='javascript' type='text/javascript'>	
+			show('loadrecordings');
+		</script>
+		  </div><tr><td  colspan='2'><br><h4 class='view'>Categories:</h4>
+<div id='categories' style='width:100%; font-size:15px'><a href='view_category.php?id=1'>Erev Shabbat</a><br><a href='view_category.php?id=18'>Sefardi</a><br><a href='view_category.php?id=13'>Psalms</a><br><a href='view_category.php?id=14'>Liturgy</a><br><br></div></td></tr></table>
+
+<center><a href='copyright_report.php?id=337' style='font-size:12px'>Report copyright infringement/submit DMCA request</a></center>
+
+</div>
+</div>
+<div id="footer">
+    <div align="center"> 
+      <ul>
+      	<li><a href="faq.php">FAQ</a>&nbsp;</li>
+        <li><a href="contact2.php">Contact Us</a>&nbsp;</li>
+        <li><a href="copyright.php">Copyright Policy</a></li>
+        <li><a href="copyright_report.php#dmca">DMCA Policy and Agent Info</a></li>
+         <li><a href="links.php">Links and Partners</a></li>
+         <li><a href="http://acum.org.il"><img src="acum.png" height="20" style="vertical-align:bottom"/> השירות פועל ברישיון אקו"ם</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+</html>
